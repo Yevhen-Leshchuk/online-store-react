@@ -1,0 +1,14 @@
+html {
+  box-sizing: border-box;
+  @include fontProperty();
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  @media screen and (min-width: 1240px) {
+    @include containerMedia($desktop);
+  }
+}

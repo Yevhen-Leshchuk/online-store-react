@@ -1,0 +1,24 @@
+@mixin containerMedia($mobile) {
+  margin: 0 auto;
+  width: $desktop;
+}
+
+@mixin fontProperty(
+  $font-family: Raleway,
+  $color: $black,
+  $weight: 400,
+  $size: 16px,
+  $height: 1,
+  $transform: none,
+  $text-align: left,
+  $letter-spacing: none
+) {
+  font-family: $font-family;
+  color: $color;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $height;
+  letter-spacing: $letter-spacing;
+  text-transform: $transform;
+  text-align: $text-align;
+}
