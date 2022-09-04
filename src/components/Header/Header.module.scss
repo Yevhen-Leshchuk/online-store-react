@@ -1,0 +1,58 @@
+@import 'styles/shared.scss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  background-color: $white;
+}
+
+.logoBox {
+  width: 31px;
+  height: 31px;
+}
+
+.logo {
+  width: 31px;
+  height: 31px;
+  fill: $green;
+}
+
+.toolsBox {
+  display: flex;
+  align-items: center;
+}
+
+.currencySwitcherBtnBox {
+  display: flex;
+  align-items: center;
+  margin-right: 22px;
+  cursor: pointer;
+}
+
+.currencyIcon {
+  margin-right: 10px;
+  width: 12px;
+  height: 18px;
+}
+
+.arrowDownIcon {
+  width: 6px;
+  height: 3px;
+}
+
+.arrowUpIcon {
+  composes: arrowDownIcon;
+  display: none;
+}
+
+.cartBtnBox {
+  width: 20px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.cartIcon {
+  composes: cartBtnBox;
+}
