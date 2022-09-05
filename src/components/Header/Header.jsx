@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Navigation from 'components/Navigation';
+import CurrencySwitcher from 'components/CurrencySwitcher';
 import sprite from '../../images/svg/sprite.svg';
 import s from './Header.module.scss';
 
@@ -38,6 +39,7 @@ class Header extends PureComponent {
             </svg>
           </div>
         </div>
+        <CurrencySwitcher />
       </header>
     );
   }

@@ -1,9 +1,30 @@
 import { PureComponent } from 'react';
-import s from 'CurrencySwitcher.module.scss';
+import sprite from '../../images/svg/sprite.svg';
+import s from './CurrencySwitcher.module.scss';
 
 class CurrencySwitcher extends PureComponent {
   render() {
-    return <h1>CurrencySwitcher</h1>;
+    return (
+      <>
+        <ul className={s.currencySwitcherBox}>
+          <li className={s.currencySwitcherItem}>
+            <svg className={s.currencyIcon}>
+              <use xlinkHref={`${sprite}#usd`} />
+            </svg>
+          </li>
+          <li className={s.currencySwitcherItem}>
+            <svg className={s.currencyIcon}>
+              <use xlinkHref={`${sprite}#eur`} />
+            </svg>
+          </li>
+          <li className={s.currencySwitcherItem}>
+            <svg className={s.currencyIcon}>
+              <use xlinkHref={`${sprite}#jpy`} />
+            </svg>
+          </li>
+        </ul>
+      </>
+    );
   }
 }
 

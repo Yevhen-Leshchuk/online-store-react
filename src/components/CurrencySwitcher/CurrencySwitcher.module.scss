@@ -1,0 +1,42 @@
+@import 'styles/shared.scss';
+
+.currencySwitcherBox {
+  position: absolute;
+  bottom: -155px;
+  right: -23px;
+  width: 114px;
+
+  box-shadow: $cardShadowActive;
+}
+
+.currencySwitcherItem:first-child {
+  padding-top: 20px;
+}
+
+.currencySwitcherItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+
+  transition: color background-color 0.25s $cubicBezier;
+}
+
+.currencySwitcherItem:last-child {
+  padding-bottom: 20px;
+}
+
+.currencySwitcherItem:hover,
+.currencySwitcherItem:focus {
+  background-color: $gray2;
+
+  transition: color background-color 0.25s $cubicBezier;
+}
+
+.currencyIcon {
+  width: 56px;
+  height: 29px;
+}
