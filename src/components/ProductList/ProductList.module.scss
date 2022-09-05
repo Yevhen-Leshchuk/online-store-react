@@ -1,0 +1,91 @@
+@import 'styles/shared.scss';
+
+.productList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.productCard {
+  position: relative;
+  flex-basis: calc(34.3% - 40px);
+  max-width: 386px;
+  height: 444px;
+  margin-right: 40px;
+  margin-bottom: 103px;
+  padding: 16px;
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.productCard:hover,
+.productCard:focus {
+  box-shadow: $cardShadowActive;
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.productCard:nth-child(3n) {
+  margin-right: 0;
+  margin-bottom: 103px;
+}
+
+.productCard:nth-last-child(-n + 3) {
+  margin-bottom: 0;
+}
+
+.productImgBox {
+  max-width: 354px;
+  height: 330px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.productCardImage {
+  width: 100%;
+  height: 100%;
+}
+
+.productCardTitle {
+  margin-bottom: 10px;
+
+  @include fontProperty($weight: 300, $size: 18px, $height: 1.6);
+}
+
+.productCardCost {
+  composes: productCardTitle;
+  font-weight: 500;
+}
+
+.btnAddToCart {
+  opacity: 0;
+  width: 52px;
+  height: 52px;
+
+  background-color: $green;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}
+
+.btnAddToCart:hover,
+.btnAddToCart:focus {
+  background-color: #81dc99;
+}
+
+.productCard:hover .btnAddToCart,
+.productCard:focus .btnAddToCart {
+  position: absolute;
+  right: 31px;
+  bottom: 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+
+  transition: opacity 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
+}
+
+.cartIcon {
+  width: 24px;
+  height: 24px;
+  fill: $white;
+}

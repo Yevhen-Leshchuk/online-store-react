@@ -8,7 +8,7 @@ class Navigation extends PureComponent {
       <nav className={s.navBox}>
         <NavLink
           to="/"
-          alt="womenPage"
+          alt="women page"
           className={({ isActive }) =>
             isActive ? `${s.activeLink}` : `${s.navLink}`
           }
@@ -17,8 +17,8 @@ class Navigation extends PureComponent {
         </NavLink>
 
         <NavLink
-          to="/men"
-          alt="menPage"
+          to="men"
+          alt="men page"
           className={({ isActive }) =>
             isActive ? `${s.activeLink}` : `${s.navLink}`
           }
@@ -27,8 +27,8 @@ class Navigation extends PureComponent {
         </NavLink>
 
         <NavLink
-          to="/kids"
-          alt="kidsPage"
+          to="kids"
+          alt="kids page"
           className={({ isActive }) =>
             isActive ? `${s.activeLink}` : `${s.navLink}`
           }

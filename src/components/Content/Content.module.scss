@@ -1,0 +1,11 @@
+@import 'styles/shared.scss';
+
+.products {
+  padding-top: 80px;
+}
+
+.categoryTitle {
+  margin-bottom: 103px;
+
+  @include fontProperty($weight: 400, $size: 42px, $height: 1.6);
+}
