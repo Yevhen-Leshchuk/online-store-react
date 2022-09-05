@@ -10,7 +10,8 @@
   $size: 16px,
   $height: 1.2,
   $transform: none,
-  $text-align: left
+  $text-align: left,
+  $letter-spacing: 0
 ) {
   font-family: $font-family;
   color: $color;
@@ -19,4 +20,5 @@
   line-height: $height;
   text-transform: $transform;
   text-align: $text-align;
+  letter-spacing: $letter-spacing;
 }

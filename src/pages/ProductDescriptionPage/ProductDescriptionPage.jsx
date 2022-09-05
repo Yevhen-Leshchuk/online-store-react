@@ -1,9 +1,10 @@
 import { PureComponent } from 'react';
-import s from 'ProductDescriptionPage.module.scss';
+import ProductCard from 'components/ProductCard';
+import s from './ProductDescriptionPage.module.scss';
 
 class ProductDescriptionPage extends PureComponent {
   render() {
-    return <h1>ProductDescriptionPage</h1>;
+    return <ProductCard />;
   }
 }
 

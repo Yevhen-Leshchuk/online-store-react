@@ -1,9 +1,10 @@
 import { PureComponent } from 'react';
-import s from 'CartPage.module.scss';
+import Cart from 'components/Cart';
+import s from './CartPage.module.scss';
 
 class CartPage extends PureComponent {
   render() {
-    return <h1>CartPage</h1>;
+    return <Cart />;
   }
 }
 
