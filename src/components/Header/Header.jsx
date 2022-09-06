@@ -1,13 +1,32 @@
 import { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Navigation from 'components/Navigation';
 import CurrencySwitcher from 'components/CurrencySwitcher';
+import ModalCart from 'components/ModalCart';
 import sprite from '../../images/svg/sprite.svg';
 import s from './Header.module.scss';
 
 class Header extends PureComponent {
+  state = {
+    showModal: false,
+    showCurrency: false,
+  };
+
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal,
+      showCurrency: false,
+    });
+  };
+
+  toggleCurrency = () => {
+    this.setState({ showCurrency: !this.state.showCurrency, showModal: false });
+  };
+
   render() {
+    console.log(this.state.showModal);
+
     return (
       <header className={s.header}>
         <Navigation />
@@ -19,7 +38,11 @@ class Header extends PureComponent {
         </Link>
 
         <div className={s.toolsBox}>
-          <div className={s.currencySwitcherBtnBox}>
+          <button
+            type="button"
+            className={s.currencySwitcherBtnBox}
+            onClick={this.toggleCurrency}
+          >
             <svg className={s.currencyIcon}>
               <use xlinkHref={`${sprite}#dollar`} />
             </svg>
@@ -31,15 +54,28 @@ class Header extends PureComponent {
             <svg className={s.arrowUpIcon}>
               <use xlinkHref={`${sprite}#arrow-up`} />
             </svg>
-          </div>
+          </button>
 
-          <div className={s.cartBtnBox}>
+          <button
+            type="button"
+            className={s.cartBtnBox}
+            onClick={this.toggleModal}
+          >
             <svg className={s.cartIcon}>
               <use xlinkHref={`${sprite}#empty-cart`} />
             </svg>
-          </div>
+          </button>
         </div>
-        <CurrencySwitcher />
+
+        <div className={s.quantityProductBox}>
+          <span className={s.quantityProductText}>3</span>
+        </div>
+
+        {this.state.showCurrency && <CurrencySwitcher />}
+
+        {this.state.showModal && (
+          <ModalCart onClick={this.onClick} onClose={this.toggleModal} />
+        )}
       </header>
     );
   }

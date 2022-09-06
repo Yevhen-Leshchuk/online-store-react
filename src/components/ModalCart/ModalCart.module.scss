@@ -1,0 +1,267 @@
+@import 'styles/shared.scss';
+
+.overlay {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $overlayCart;
+}
+
+.modal {
+  position: absolute;
+  top: 0px;
+  right: 72px;
+
+  width: 325px;
+  padding: 32px 16px 32px 16px;
+
+  background-color: $white;
+}
+
+.title {
+  margin-bottom: 32px;
+
+  @include fontProperty($weight: 700, $size: 16px, $height: 1.6);
+}
+
+.titleValue {
+  @include fontProperty($weight: 500, $size: 16px, $height: 1.6);
+}
+
+.productDescription {
+  width: 100%;
+}
+
+.cartList {
+  margin-bottom: 32px;
+}
+
+.cartListItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.cartListItem:last-child {
+  margin-bottom: 0;
+}
+
+.productDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.productTitle {
+  @include fontProperty($weight: 300, $size: 16px, $height: 1.6);
+}
+
+.kindOfProduct {
+  @include fontProperty($weight: 300, $size: 16px, $height: 1.6);
+}
+
+.price {
+  margin-bottom: 7px;
+
+  @include fontProperty($weight: 500, $size: 16px, $height: 1.6);
+}
+
+.sizeContainer {
+  margin-bottom: 7px;
+}
+
+.sizeTitle {
+  margin-bottom: 7px;
+
+  @include fontProperty($weight: 400, $size: 14px, $height: 1.6);
+}
+
+.sizeBox {
+  display: flex;
+  align-items: center;
+}
+
+.sizeItem {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+
+  border: 1px solid $black;
+
+  @include fontProperty(
+    $font-family: Source Sans Pro,
+    $weight: 400,
+    $size: 14px,
+    $height: 1.6,
+    $text-align: center
+  );
+
+  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
+}
+
+.sizeItem:last-child {
+  margin-right: 0;
+}
+
+.sizeItem:hover,
+.sizeItem:focus {
+  background-color: $black;
+  color: $white;
+
+  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
+  cursor: pointer;
+}
+
+.colorTitle {
+  margin-bottom: 8px;
+
+  @include fontProperty($weight: 400, $size: 14px, $height: 1.6);
+}
+
+.colorBox {
+  display: flex;
+  align-items: center;
+}
+
+.colorItemBox {
+  margin-right: 8px;
+}
+
+.colorItem {
+  width: 16px;
+  height: 16px;
+
+  background-color: $blue;
+
+  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
+}
+
+.colorItemBox:last-child {
+  margin-right: 0;
+}
+
+.colorItemBox:hover,
+.colorItemBox:focus {
+  padding: 1px;
+  border: 1px solid $green;
+
+  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
+  cursor: pointer;
+}
+
+.productManagement {
+  position: relative;
+  display: flex;
+}
+
+.counterBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 8px;
+}
+
+.incrementBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+
+  background-color: transparent;
+  border: 1px solid $black;
+  cursor: pointer;
+}
+
+.incrementIcon {
+  width: 15px;
+  height: 15px;
+}
+
+.quantity {
+  @include fontProperty(
+    $weight: 500,
+    $size: 16px,
+    $height: 1.6,
+    $text-align: center
+  );
+}
+
+.decrementBtn {
+  composes: incrementBtn;
+}
+
+.decrementIcon {
+  width: 15px;
+}
+
+.productImg {
+  width: 121px;
+  height: 190px;
+  overflow: hidden;
+}
+
+.totalPriceBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.titlePrice {
+  @include fontProperty(
+    $font-family: Roboto,
+    $weight: 500,
+    $size: 16px,
+    $height: 1.12
+  );
+}
+
+.totalValue {
+  @include fontProperty($weight: 700, $size: 16px, $height: 1.6);
+}
+
+.cartBtnBox {
+  display: flex;
+  align-items: center;
+}
+
+.cartBtn {
+  width: 140px;
+  height: 43px;
+  margin-right: 12px;
+
+  border: 1px solid $black;
+  background-color: transparent;
+
+  cursor: pointer;
+
+  @include fontProperty(
+    $weight: 600,
+    $size: 14px,
+    $height: 1.2,
+    $transform: uppercase,
+    $text-align: center
+  );
+
+  transition: background-color 0.25s $cubicBezier, color 0.25s $cubicBezier,
+    border 0.25s $cubicBezier;
+}
+
+.cartBtn:last-child {
+  margin-right: 0;
+}
+
+.cartBtn:hover,
+.cartBtn:focus {
+  color: $white;
+  background-color: $green;
+  border: 1px solid $green;
+
+  transition: background-color 0.25s $cubicBezier, color 0.25s $cubicBezier,
+    border 0.25s $cubicBezier;
+}

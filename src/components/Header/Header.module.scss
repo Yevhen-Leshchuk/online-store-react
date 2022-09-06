@@ -1,7 +1,10 @@
 @import 'styles/shared.scss';
 
 .header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1100;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,6 +32,9 @@
   display: flex;
   align-items: center;
   margin-right: 22px;
+
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
 
@@ -51,10 +57,38 @@
 .cartBtnBox {
   width: 20px;
   height: 18px;
+
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
 
 .cartIcon {
   composes: cartBtnBox;
   fill: $black;
+}
+
+.quantityProductBox {
+  position: absolute;
+  top: 22px;
+  right: -13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: $black;
+}
+
+.quantityProductText {
+  @include fontProperty(
+    $font-family: Roboto,
+    $color: $white,
+    $weight: 700,
+    $size: 14px,
+    $height: 1.14,
+    $text-align: center
+  );
 }
