@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navigation from 'components/Navigation';
 import CurrencySwitcher from 'components/CurrencySwitcher';
 import ModalCart from 'components/ModalCart';
+import MiniCart from 'components/MiniCart';
 import sprite from '../../images/svg/sprite.svg';
 import s from './Header.module.scss';
 
@@ -76,6 +77,7 @@ class Header extends PureComponent {
         {this.state.showModal && (
           <ModalCart onClick={this.onClick} onClose={this.toggleModal} />
         )}
+        {this.state.showModal && <MiniCart onClose={this.toggleModal} />}
       </header>
     );
   }
