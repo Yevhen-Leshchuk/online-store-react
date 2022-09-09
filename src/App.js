@@ -1,11 +1,16 @@
 import { PureComponent, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Layout from 'components/Layout/';
 
 const CategoryPage = lazy(() =>
   import(
     'pages/CategoryPage/CategoryPage' /* webpackChunkName: "CategoryPage" */
   )
+);
+
+const ProductList = lazy(() =>
+  import('components/ProductList/ProductList' /* webpackChunkName: "Content" */)
 );
 
 const ProductDescriptionPage = lazy(() =>
@@ -20,12 +25,14 @@ const CartPage = lazy(() =>
 
 class App extends PureComponent {
   render() {
+    // const name = this.props.categoriesName.map(name => name);
     return (
       <>
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/" element={<CategoryPage />} />
+              <Route index path="/" element={<CategoryPage />} />
+              <Route path="/:category" element={<ProductList />} />
               <Route path="product-card" element={<ProductDescriptionPage />} />
               <Route path="cart" element={<CartPage />} />
             </Route>
@@ -36,4 +43,9 @@ class App extends PureComponent {
   }
 }
 
+// const mapStateToProps = state => ({
+//   categoriesName: state.categories.name,
+// });
+
+// export default connect(mapStateToProps)(App);
 export default App;

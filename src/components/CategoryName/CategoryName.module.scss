@@ -5,3 +5,7 @@
 
   @include fontProperty($weight: 400, $size: 42px, $height: 1.6);
 }
+
+.categoryTitle::first-letter {
+  text-transform: capitalize;
+}

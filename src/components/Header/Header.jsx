@@ -26,8 +26,6 @@ class Header extends PureComponent {
   };
 
   render() {
-    console.log(this.state.showModal);
-
     return (
       <header className={s.header}>
         <Navigation />
@@ -72,12 +70,14 @@ class Header extends PureComponent {
           <span className={s.quantityProductText}>3</span>
         </div>
 
-        {this.state.showCurrency && <CurrencySwitcher />}
+        {this.state.showCurrency && (
+          <CurrencySwitcher onClose={this.toggleCurrency} />
+        )}
 
         {this.state.showModal && (
           <ModalCart onClick={this.onClick} onClose={this.toggleModal} />
         )}
-        {this.state.showModal && <MiniCart onClose={this.toggleModal} />}
+        {this.state.showModal && <MiniCart onClose={this.toggle} />}
       </header>
     );
   }

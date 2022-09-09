@@ -1,10 +1,14 @@
 import { PureComponent } from 'react';
-import Content from 'components/Content';
+import ProductList from 'components/ProductList';
 import s from './CategoryPage.module.scss';
 
 class CategoryPage extends PureComponent {
   render() {
-    return <Content />;
+    return (
+      <>
+        <ProductList />
+      </>
+    );
   }
 }
 
