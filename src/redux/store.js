@@ -13,6 +13,7 @@ import {
 // import logger from 'redux-logger';
 import { categoriesReducer } from './categories';
 import { setCategoryReducer } from './currentCategory';
+import { productsReducer } from './products';
 
 const middleware = getDefaultMiddleware => [
   ...getDefaultMiddleware({
@@ -34,6 +35,7 @@ export const store = configureStore({
     // auth: persistReducer(authPersistConfig, authReducer),
     categories: categoriesReducer,
     currentCategory: setCategoryReducer,
+    products: productsReducer,
   },
   devTools: process.env.NODE_ENV === 'development',
   middleware,

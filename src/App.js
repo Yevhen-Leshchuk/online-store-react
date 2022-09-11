@@ -1,6 +1,5 @@
 import { PureComponent, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 import Layout from 'components/Layout/';
 
 const CategoryPage = lazy(() =>
@@ -25,7 +24,6 @@ const CartPage = lazy(() =>
 
 class App extends PureComponent {
   render() {
-    // const name = this.props.categoriesName.map(name => name);
     return (
       <>
         <Suspense fallback={null}>
@@ -43,9 +41,4 @@ class App extends PureComponent {
   }
 }
 
-// const mapStateToProps = state => ({
-//   categoriesName: state.categories.name,
-// });
-
-// export default connect(mapStateToProps)(App);
 export default App;

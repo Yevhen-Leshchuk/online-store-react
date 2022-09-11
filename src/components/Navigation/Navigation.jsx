@@ -8,15 +8,16 @@ import s from './Navigation.module.scss';
 class Navigation extends PureComponent {
   clickOnCategory = category => {
     this.props.setCategory(category);
+    this.props.getProductName(category);
   };
 
   componentDidMount() {
     this.props.getCategories();
+    this.props.getProductName(this.props.currentCategory);
   }
 
   render() {
     const { categoriesName, currentCategory } = this.props;
-    console.log(currentCategory);
 
     return (
       <nav className={s.navBox}>
@@ -50,6 +51,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getCategories: () => dispatch(categoriesOperations.getAllCategories()),
   setCategory: currentCategory => dispatch(setCategory(currentCategory)),
+  getProductName: currentCategory =>
+    dispatch(categoriesOperations.getProductName(currentCategory)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

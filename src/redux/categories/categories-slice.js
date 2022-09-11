@@ -3,6 +3,7 @@ import categoriesOperations from './categories-operations';
 
 const initialState = {
   name: [],
+  productName: null,
 };
 
 const categoriesSlice = createSlice({
@@ -12,9 +13,10 @@ const categoriesSlice = createSlice({
     [categoriesOperations.getAllCategories.fulfilled](state, action) {
       state.name = action.payload;
     },
+    [categoriesOperations.getProductName.fulfilled](state, action) {
+      state.productName = action.payload;
+    },
   },
 });
-
-export const { setCategory } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

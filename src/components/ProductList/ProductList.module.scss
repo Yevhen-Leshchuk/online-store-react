@@ -3,6 +3,7 @@
 .productList {
   display: flex;
   flex-wrap: wrap;
+  padding-bottom: 190px;
 }
 
 .productCard {
@@ -31,7 +32,16 @@
   margin-bottom: 0;
 }
 
+.productCard:last-child {
+  margin-right: 0;
+}
+
+.inStockOverlay {
+  opacity: 0.5;
+}
+
 .productImgBox {
+  position: relative;
   max-width: 354px;
   height: 330px;
   margin-bottom: 24px;
@@ -39,8 +49,16 @@
 }
 
 .productCardImage {
-  width: 100%;
+  display: block;
+  margin: 0 auto;
   height: 100%;
+}
+
+.inStockText {
+  position: absolute;
+  top: 145px;
+  left: 90px;
+  @include fontProperty($color: $grey, $weight: 400, $size: 24px, $height: 1.6);
 }
 
 .productCardTitle {
