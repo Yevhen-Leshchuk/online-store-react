@@ -1,72 +1,137 @@
 import { PureComponent } from 'react';
-import pulloverS from '../../images/img/pullover-s.jpg';
-import pulloverXl from '../../images/img/pullover-xl.jpg';
+import { connect } from 'react-redux';
+import { Interweave } from 'interweave';
 import s from './ProductCard.module.scss';
 
 class ProductCard extends PureComponent {
+  state = {
+    imageSRC: '',
+  };
+
+  formUpHandler = event => {
+    event.preventDefault();
+    const { productsItem } = this.props;
+    const { id } = productsItem;
+    const formRef = event.target;
+    const formData = new FormData(formRef);
+    const submittedSignUpData = {};
+
+    formData.forEach((value, key) => {
+      submittedSignUpData[key] = value;
+    });
+
+    const updateData = {
+      ...submittedSignUpData,
+      id,
+    };
+    console.log(updateData);
+  };
+
   render() {
+    const { productsItem } = this.props;
+    const { imageSRC } = this.state;
+
+    const {
+      name,
+      gallery,
+      brand,
+      inStock,
+      prices,
+      id,
+      description,
+      attributes,
+    } = productsItem;
+
     return (
       <>
         <div className={s.productCardBox}>
           <ul className={s.smallImgBox}>
-            <li className={s.imgBox}>
-              <img className={s.productImage} src={pulloverS} alt="pullover" />
-            </li>
-            <li className={s.imgBox}>
-              <img className={s.productImage} src={pulloverS} alt="pullover" />
-            </li>
-            <li className={s.imgBox}>
-              <img className={s.productImage} src={pulloverS} alt="pullover" />
-            </li>
+            {gallery.map(image => {
+              return (
+                <li
+                  className={s.imgBox}
+                  onClick={() => this.setState({ imageSRC: image })}
+                >
+                  <img className={s.productImage} src={image} alt={image} />
+                </li>
+              );
+            })}
           </ul>
           <div className={s.cardBox}>
             <div className={s.productImgBox}>
-              <img className={s.productImage} src={pulloverXl} alt="pullover" />
+              <img
+                className={s.productImage}
+                src={imageSRC === '' ? gallery[0] : imageSRC}
+                alt="pullover"
+              />
             </div>
 
             <div className={s.productDescription}>
-              <h2 className={s.productTitle}>Apollo</h2>
-              <h3 className={s.kindOfProduct}>Running Short</h3>
+              <h2 className={s.productTitle}>{brand}</h2>
+              <h3 className={s.kindOfProduct}>{name}</h3>
 
-              <div className={s.sizeContainer}>
-                <h3 className={s.sizeTitle}>SIZE:</h3>
-                <ul className={s.sizeBox}>
-                  <li className={s.sizeItem}>XS</li>
-                  <li className={s.sizeItem}>S</li>
-                  <li className={s.sizeItem}>M</li>
-                  <li className={s.sizeItem}>L</li>
-                </ul>
-              </div>
+              <form onSubmit={this.formUpHandler}>
+                {attributes.map(({ id, type, items }) => (
+                  <div className={s.attrContainer}>
+                    <h2 className={s.attrTitle}>{id} :</h2>
+                    <div className={s.attrBox}>
+                      {items.map(({ value }) => {
+                        return type === 'text' ? (
+                          <div className={s.inputBoxText}>
+                            <input
+                              className={s.inputText}
+                              type="radio"
+                              id={value + id}
+                              value={value}
+                              name={id}
+                              required
+                            />
 
-              <div className={s.colorContainer}>
-                <h3 className={s.colorTitle}>COLOR:</h3>
-                <ul className={s.colorBox}>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                </ul>
-              </div>
+                            <label htmlFor={value + id} className={s.text}>
+                              {value}
+                            </label>
+                          </div>
+                        ) : (
+                          <div className={s.inputBoxSwatch}>
+                            <input
+                              type="radio"
+                              id={value + id}
+                              className={s.inputSwatch}
+                              value={value}
+                              name={id}
+                              required
+                            />
+                            <label
+                              htmlFor={value + id}
+                              className={s.swatch}
+                              style={{
+                                backgroundColor: value,
+                              }}
+                            ></label>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
 
-              <div className={s.priceContainer}>
-                <h3 className={s.priceTitle}>PRICE:</h3>
-                <p className={s.price}>$50.00</p>
-              </div>
+                <div className={s.priceContainer}>
+                  <h3 className={s.priceTitle}>PRICE:</h3>
+                  <p className={s.price}>${prices[0].amount}</p>
+                </div>
 
-              <button className={s.btnAddtoCart} type="button">
-                ADD TO CART
-              </button>
+                <button
+                  className={
+                    !inStock ? `${s.disabledBtn}` : `${s.btnAddtoCart}`
+                  }
+                  type="submit"
+                  disabled={!inStock}
+                >
+                  ADD TO CART
+                </button>
+              </form>
 
-              <p className={s.description}>
-                Find stunning women's cocktail dresses and party dresses. Stand
-                out in lace and metallic cocktail dresses and party dresses from
-                all your favorite brands.
-              </p>
+              <Interweave content={description} className={s.description} />
             </div>
           </div>
         </div>
@@ -75,4 +140,8 @@ class ProductCard extends PureComponent {
   }
 }
 
-export default ProductCard;
+const mapStateToProps = state => ({
+  productsItem: state.products.productItem,
+});
+
+export default connect(mapStateToProps)(ProductCard);

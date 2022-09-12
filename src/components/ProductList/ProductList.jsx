@@ -12,7 +12,7 @@ class ProductList extends PureComponent {
   }
 
   render() {
-    const { productsList } = this.props;
+    const { productsList, getProductsItem } = this.props;
     // console.log(productsList);
 
     return (
@@ -28,6 +28,7 @@ class ProductList extends PureComponent {
                       to="/product-card"
                       alt="product card"
                       className={!inStock ? s.inStockOverlay : null}
+                      onClick={() => getProductsItem(id)}
                     >
                       <div className={s.productImgBox}>
                         <img
@@ -69,7 +70,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getProductsList: id => dispatch(productsOperations.getProductList(id)),
+  getProductsList: currentCategory =>
+    dispatch(productsOperations.getProductList(currentCategory)),
+  getProductsItem: id => dispatch(productsOperations.getProductItem(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

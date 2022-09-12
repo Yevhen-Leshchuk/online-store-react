@@ -2,6 +2,7 @@
 
 .productCardBox {
   display: flex;
+  padding-bottom: 178px;
 }
 
 .smallImgBox {
@@ -13,6 +14,7 @@
   height: 80px;
   margin-bottom: 40px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .imgBox:last-child {
@@ -24,10 +26,12 @@
 }
 
 .productImgBox {
+  display: flex;
+  justify-content: center;
+
   width: 610px;
   height: 511px;
   margin-right: 100px;
-  overflow: hidden;
 }
 
 .productDescription {
@@ -47,12 +51,12 @@
   @include fontProperty($weight: 400, $size: 30px, $height: 0.9);
 }
 
-.sizeContainer {
+.attrContainer {
   margin-bottom: 24px;
 }
 
-.sizeTitle {
-  margin-bottom: 8px;
+.attrTitle {
+  margin-bottom: 10px;
 
   @include fontProperty(
     $font-family: Roboto Condensed,
@@ -62,15 +66,25 @@
   );
 }
 
-.sizeBox {
+.attrBox {
   display: flex;
   align-items: center;
 }
 
-.sizeItem {
+.inputBoxText {
+  margin-right: 12px;
+}
+
+.inputText {
+  appearance: none;
+  position: absolute;
+}
+
+.text {
+  content: '';
+  display: inline-block;
   width: 63px;
   height: 45px;
-  margin-right: 12px;
   padding-top: 12px;
   padding-bottom: 12px;
 
@@ -86,65 +100,60 @@
   );
 
   transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
-}
-
-.sizeItem:last-child {
-  margin-right: 0;
-}
-
-.sizeItem:hover,
-.sizeItem:focus {
-  background-color: $black;
-  color: $white;
-
-  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
   cursor: pointer;
 }
 
-.colorContainer {
-  margin-bottom: 36px;
-}
-
-.colorTitle {
-  margin-bottom: 10px;
+.inputText:checked + .text {
+  background-color: $black;
 
   @include fontProperty(
-    $font-family: Roboto Condensed,
-    $weight: 700,
-    $size: 18px,
-    $height: 1
+    $color: $white,
+    $font-family: Source Sans Pro,
+    $weight: 400,
+    $size: 16px,
+    $height: 1.12,
+    $text-align: center,
+    $letter-spacing: 0.05em
   );
+
+  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
 }
 
-.colorBox {
-  display: flex;
-  align-items: center;
+.inputBoxText:last-child {
+  margin-right: 0;
 }
 
-.colorItemBox {
+.inputBoxSwatch {
   margin-right: 8px;
 }
 
-.colorItem {
+.inputSwatch {
+  appearance: none;
+  position: absolute;
+}
+
+.swatch {
+  content: '';
+  display: inline-block;
   width: 32px;
   height: 32px;
+  border: 1px solid $black;
 
-  background-color: $grey1;
-
-  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
-}
-
-.colorItemBox:last-child {
-  margin-right: 0;
-}
-
-.colorItemBox:hover,
-.colorItemBox:focus {
-  padding: 1px;
-  border: 1px solid $green;
-
-  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
+  transition: border 0.25s $cubicBezier outline 0.25s $cubicBezier;
   cursor: pointer;
+}
+
+.inputSwatch:checked + .swatch {
+  width: 36px;
+  height: 36px;
+  border: 1px solid $white;
+  outline: 1px solid $green;
+
+  transition: border 0.25s $cubicBezier outline 0.25s $cubicBezier;
+}
+
+.inputBoxSwatch:last-child {
+  margin-right: 0;
 }
 
 .priceContainer {
@@ -188,6 +197,26 @@
   transition: background-color 0.25s $cubicBezier;
 }
 
+.disabledBtn {
+  width: 292px;
+  height: 52px;
+  margin-bottom: 40px;
+
+  border: none;
+  background-color: $grey;
+  cursor: pointer;
+
+  @include fontProperty(
+    $color: $white,
+    $weight: 600,
+    $size: 16px,
+    $height: 1.2,
+    $transform: uppercase,
+    $text-align: center
+  );
+  cursor: auto;
+}
+
 .btnAddtoCart:hover,
 .btnAddtoCart:focus {
   background-color: #81dc99;
@@ -197,6 +226,7 @@
 
 .description {
   width: 292px;
+  max-height: 103px;
 
   @include fontProperty(
     $font-family: Roboto,
@@ -204,4 +234,5 @@
     $size: 16px,
     $height: 1.6
   );
+  overflow-y: scroll;
 }

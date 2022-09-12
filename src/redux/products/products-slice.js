@@ -3,6 +3,7 @@ import productsOperations from './products-operations';
 
 const initialState = {
   products: [],
+  productItem: null,
 };
 
 const productsSlice = createSlice({
@@ -11,6 +12,10 @@ const productsSlice = createSlice({
   extraReducers: {
     [productsOperations.getProductList.fulfilled](state, action) {
       state.products = action.payload;
+    },
+
+    [productsOperations.getProductItem.fulfilled](state, action) {
+      state.productItem = action.payload;
     },
   },
 });
