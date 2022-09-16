@@ -1,0 +1,42 @@
+@import 'styles/shared.scss';
+
+.productImg {
+  display: flex;
+  align-items: center;
+
+  width: 200px;
+  height: 288px;
+  overflow: hidden;
+}
+
+.switcherImgBox {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.switcherImgLeft {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+
+  border: none;
+  background-color: $switcherImg;
+  cursor: pointer;
+}
+
+.switcherIcon {
+  width: 6px;
+  height: 11px;
+}
+
+.switcherImgRight {
+  composes: switcherImgLeft;
+  margin-right: 0;
+}
+
+.switcherIcon {
+  composes: switcherIcon;
+}

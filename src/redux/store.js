@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {
-  // persistStore,
-  // persistReducer,
+  persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -9,11 +9,12 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist/lib/storage';
 // import logger from 'redux-logger';
 import { categoriesReducer } from './categories';
 import { setCategoryReducer } from './currentCategory';
 import { productsReducer } from './products';
+import { cartReducer } from './cart';
 
 const middleware = getDefaultMiddleware => [
   ...getDefaultMiddleware({
@@ -24,21 +25,25 @@ const middleware = getDefaultMiddleware => [
   // logger,
 ];
 
-// const authPersistConfig = {
-//   key: 'auth',
-//   storage,
-//   whitelist: ['accessToken', 'refreshToken', 'sid'],
-// };
+const cartPersistConfig = {
+  key: 'cart',
+  storage,
+};
+
+const productsPersistConfig = {
+  key: 'products',
+  storage,
+};
 
 export const store = configureStore({
   reducer: {
-    // auth: persistReducer(authPersistConfig, authReducer),
     categories: categoriesReducer,
     currentCategory: setCategoryReducer,
-    products: productsReducer,
+    products: persistReducer(productsPersistConfig, productsReducer),
+    cart: persistReducer(cartPersistConfig, cartReducer),
   },
   devTools: process.env.NODE_ENV === 'development',
   middleware,
 });
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);

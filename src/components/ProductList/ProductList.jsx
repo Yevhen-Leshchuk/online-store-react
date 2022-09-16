@@ -7,12 +7,16 @@ import { productsOperations } from 'redux/products';
 import s from './ProductList.module.scss';
 
 class ProductList extends PureComponent {
+  componentDidMount() {
+    this.props.getProductsList(this.props.currentCategory);
+  }
+
   componentDidUpdate() {
     this.props.getProductsList(this.props.currentCategory);
   }
 
   render() {
-    const { productsList, getProductsItem } = this.props;
+    const { productsList, getProductItem } = this.props;
     // console.log(productsList);
 
     return (
@@ -28,7 +32,7 @@ class ProductList extends PureComponent {
                       to="/product-card"
                       alt="product card"
                       className={!inStock ? s.inStockOverlay : null}
-                      onClick={() => getProductsItem(id)}
+                      onClick={() => getProductItem(id)}
                     >
                       <div className={s.productImgBox}>
                         <img
@@ -64,15 +68,13 @@ class ProductList extends PureComponent {
 
 const mapStateToProps = state => ({
   currentCategory: state.currentCategory.category,
-
-  productId: state.categories.productName,
   productsList: state.products.products,
 });
 
 const mapDispatchToProps = dispatch => ({
   getProductsList: currentCategory =>
     dispatch(productsOperations.getProductList(currentCategory)),
-  getProductsItem: id => dispatch(productsOperations.getProductItem(id)),
+  getProductItem: id => dispatch(productsOperations.getProductItem(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

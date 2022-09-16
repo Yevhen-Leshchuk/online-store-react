@@ -1,4 +1,5 @@
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import Navigation from 'components/Navigation';
@@ -26,6 +27,7 @@ class Header extends PureComponent {
   };
 
   render() {
+    const { quantity } = this.props;
     return (
       <header className={s.header}>
         <Navigation />
@@ -65,10 +67,11 @@ class Header extends PureComponent {
             </svg>
           </button>
         </div>
-
-        <div className={s.quantityProductBox}>
-          <span className={s.quantityProductText}>3</span>
-        </div>
+        {quantity > 0 && (
+          <div className={s.quantityProductBox}>
+            <span className={s.quantityProductText}>{quantity}</span>
+          </div>
+        )}
 
         {this.state.showCurrency && (
           <CurrencySwitcher onClose={this.toggleCurrency} />
@@ -83,4 +86,8 @@ class Header extends PureComponent {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  quantity: state.cart.quantity,
+});
+
+export default connect(mapStateToProps)(Header);

@@ -1,0 +1,191 @@
+@import 'styles/shared.scss';
+
+.cartListItem:first-child {
+  border-top: 1px solid $gray3;
+}
+
+.cartListItem {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 32px;
+  padding-top: 24px;
+  padding-bottom: 30px;
+
+  border-bottom: 1px solid $gray3;
+}
+
+.productDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.productTitle {
+  margin-bottom: 16px;
+
+  @include fontProperty($weight: 600, $size: 30px, $height: 0.9);
+}
+
+.kindOfProduct {
+  margin-bottom: 20px;
+
+  @include fontProperty($weight: 400, $size: 30px, $height: 0.9);
+}
+
+.price {
+  margin-bottom: 20px;
+
+  @include fontProperty($weight: 700, $size: 24px, $height: 1);
+}
+
+.attrContainer {
+  margin-bottom: 24px;
+}
+
+.attrTitle {
+  margin-bottom: 10px;
+
+  @include fontProperty(
+    $font-family: Roboto Condensed,
+    $weight: 700,
+    $size: 18px,
+    $height: 1
+  );
+}
+
+.attrBox {
+  display: flex;
+  align-items: center;
+}
+
+.inputBoxText {
+  margin-right: 12px;
+}
+
+.inputText {
+  appearance: none;
+  position: absolute;
+}
+
+.text {
+  content: '';
+  display: inline-block;
+  width: 63px;
+  height: 45px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  border: 1px solid $black;
+
+  @include fontProperty(
+    $font-family: Source Sans Pro,
+    $weight: 400,
+    $size: 16px,
+    $height: 1.12,
+    $text-align: center,
+    $letter-spacing: 0.05em
+  );
+}
+
+.selectedAttr {
+  content: '';
+  display: inline-block;
+  width: 63px;
+  height: 45px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  border: 1px solid $black;
+  background-color: $black;
+
+  @include fontProperty(
+    $color: $white,
+    $font-family: Source Sans Pro,
+    $weight: 400,
+    $size: 16px,
+    $height: 1.12,
+    $text-align: center,
+    $letter-spacing: 0.05em
+  );
+}
+
+.inputBoxText:last-child {
+  margin-right: 0;
+}
+
+.inputBoxSwatch {
+  margin-right: 8px;
+}
+
+.inputSwatch {
+  appearance: none;
+  position: absolute;
+}
+
+.swatch {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 1px solid $black;
+}
+
+.inputSwatchChecked {
+  content: '';
+  display: inline-block;
+
+  width: 36px;
+  height: 36px;
+  border: 1px solid $white;
+  outline: 1px solid $green;
+}
+
+.inputBoxSwatch:last-child {
+  margin-right: 0;
+}
+
+.productManagement {
+  position: relative;
+  display: flex;
+}
+
+.counterBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 24px;
+}
+
+.incrementBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+
+  background-color: transparent;
+  border: 1px solid $black;
+  cursor: pointer;
+}
+
+.incrementIcon {
+  width: 15px;
+  height: 15px;
+}
+
+.quantity {
+  @include fontProperty(
+    $weight: 500,
+    $size: 24px,
+    $height: 1.6,
+    $text-align: center
+  );
+}
+
+.decrementBtn {
+  composes: incrementBtn;
+}
+
+.decrementIcon {
+  width: 15px;
+}

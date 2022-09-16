@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { Interweave } from 'interweave';
+import { addItemToCart } from 'redux/cart';
 import s from './ProductCard.module.scss';
 
 class ProductCard extends PureComponent {
@@ -10,37 +12,31 @@ class ProductCard extends PureComponent {
 
   formUpHandler = event => {
     event.preventDefault();
-    const { productsItem } = this.props;
-    const { id } = productsItem;
+    const { productItem } = this.props;
     const formRef = event.target;
     const formData = new FormData(formRef);
-    const submittedSignUpData = {};
+    const submittedCartData = {};
 
     formData.forEach((value, key) => {
-      submittedSignUpData[key] = value;
+      submittedCartData[key] = value;
     });
+    const itemId = nanoid();
 
     const updateData = {
-      ...submittedSignUpData,
-      id,
+      attributes: submittedCartData,
+      data: productItem,
+      itemId,
     };
-    console.log(updateData);
+
+    this.props.addItemToCart(updateData);
   };
 
   render() {
-    const { productsItem } = this.props;
+    const { productItem } = this.props;
     const { imageSRC } = this.state;
 
-    const {
-      name,
-      gallery,
-      brand,
-      inStock,
-      prices,
-      id,
-      description,
-      attributes,
-    } = productsItem;
+    const { name, gallery, brand, inStock, prices, description, attributes } =
+      productItem;
 
     return (
       <>
@@ -51,6 +47,7 @@ class ProductCard extends PureComponent {
                 <li
                   className={s.imgBox}
                   onClick={() => this.setState({ imageSRC: image })}
+                  key={nanoid()}
                 >
                   <img className={s.productImage} src={image} alt={image} />
                 </li>
@@ -72,12 +69,12 @@ class ProductCard extends PureComponent {
 
               <form onSubmit={this.formUpHandler}>
                 {attributes.map(({ id, type, items }) => (
-                  <div className={s.attrContainer}>
+                  <div className={s.attrContainer} key={nanoid()}>
                     <h2 className={s.attrTitle}>{id} :</h2>
                     <div className={s.attrBox}>
                       {items.map(({ value }) => {
                         return type === 'text' ? (
-                          <div className={s.inputBoxText}>
+                          <div className={s.inputBoxText} key={nanoid()}>
                             <input
                               className={s.inputText}
                               type="radio"
@@ -92,7 +89,7 @@ class ProductCard extends PureComponent {
                             </label>
                           </div>
                         ) : (
-                          <div className={s.inputBoxSwatch}>
+                          <div className={s.inputBoxSwatch} key={nanoid()}>
                             <input
                               type="radio"
                               id={value + id}
@@ -141,7 +138,11 @@ class ProductCard extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  productsItem: state.products.productItem,
+  productItem: state.products.productItem,
 });
 
-export default connect(mapStateToProps)(ProductCard);
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: data => dispatch(addItemToCart(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

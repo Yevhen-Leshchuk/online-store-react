@@ -95,7 +95,7 @@ const getProductList = createAsyncThunk(
         },
       });
       // successMessage('Вы успешно зарегистрированы!');
-      console.log(data);
+      // console.log(data);
       return data.category.products;
     } catch (error) {
       // errorMessage('Такой пользователь уже существует!');
