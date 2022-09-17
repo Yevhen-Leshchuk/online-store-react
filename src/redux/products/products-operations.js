@@ -41,10 +41,8 @@ const getProductItem = createAsyncThunk(
         query: GET_PRODUCT_ITEM,
         variables: { id: id },
       });
-      // successMessage('Вы успешно зарегистрированы!');
       return data.product;
     } catch (error) {
-      // errorMessage('Такой пользователь уже существует!');
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -94,11 +92,9 @@ const getProductList = createAsyncThunk(
           },
         },
       });
-      // successMessage('Вы успешно зарегистрированы!');
-      // console.log(data);
+
       return data.category.products;
     } catch (error) {
-      // errorMessage('Такой пользователь уже существует!');
       return thunkAPI.rejectWithValue(error);
     }
   }

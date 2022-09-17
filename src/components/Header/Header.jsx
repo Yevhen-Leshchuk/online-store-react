@@ -6,6 +6,7 @@ import Navigation from 'components/Navigation';
 import CurrencySwitcher from 'components/CurrencySwitcher';
 import ModalCart from 'components/ModalCart';
 import MiniCart from 'components/MiniCart';
+import { currencyOperations } from 'redux/currency';
 import sprite from '../../images/svg/sprite.svg';
 import s from './Header.module.scss';
 
@@ -14,6 +15,10 @@ class Header extends PureComponent {
     showModal: false,
     showCurrency: false,
   };
+
+  async componentDidMount() {
+    await this.props.getCurrency();
+  }
 
   toggleModal = () => {
     this.setState({
@@ -27,7 +32,14 @@ class Header extends PureComponent {
   };
 
   render() {
-    const { quantity } = this.props;
+    const { quantity, currentCurrency } = this.props;
+    const { showCurrency } = this.state;
+    // console.log(currency);
+    // let currencyArr;
+    // if (currency) {
+    //   currencyArr = Object.entries(currency);
+    // }
+
     return (
       <header className={s.header}>
         <Navigation />
@@ -39,23 +51,36 @@ class Header extends PureComponent {
         </Link>
 
         <div className={s.toolsBox}>
-          <button
-            type="button"
-            className={s.currencySwitcherBtnBox}
-            onClick={this.toggleCurrency}
-          >
-            <svg className={s.currencyIcon}>
-              <use xlinkHref={`${sprite}#dollar`} />
-            </svg>
-
-            <svg className={s.arrowDownIcon}>
-              <use xlinkHref={`${sprite}#arrow-down`} />
-            </svg>
-
-            <svg className={s.arrowUpIcon}>
-              <use xlinkHref={`${sprite}#arrow-up`} />
-            </svg>
-          </button>
+          <div className={s.currencySwitcherBox}>
+            <h2 className={s.currencySwitcherSymbol}>{currentCurrency}</h2>
+            {!showCurrency && (
+              <button
+                type="submit"
+                className={s.currencySwitcherBtn}
+                onClick={() => {
+                  this.props.getCurrency();
+                  this.toggleCurrency();
+                }}
+              >
+                <svg className={s.arrowDownIcon}>
+                  <use xlinkHref={`${sprite}#arrow-down`} />
+                </svg>
+              </button>
+            )}
+            {showCurrency && (
+              <button
+                type="submit"
+                className={s.currencySwitcherBtn}
+                onClick={() => {
+                  this.toggleCurrency();
+                }}
+              >
+                <svg className={s.arrowUpIcon}>
+                  <use xlinkHref={`${sprite}#arrow-up`} />
+                </svg>
+              </button>
+            )}
+          </div>
 
           <button
             type="button"
@@ -74,7 +99,10 @@ class Header extends PureComponent {
         )}
 
         {this.state.showCurrency && (
-          <CurrencySwitcher onClose={this.toggleCurrency} />
+          <CurrencySwitcher
+            onClose={this.toggleCurrency}
+            // currency={currencyArr}
+          />
         )}
 
         {this.state.showModal && (
@@ -88,6 +116,12 @@ class Header extends PureComponent {
 
 const mapStateToProps = state => ({
   quantity: state.cart.quantity,
+  currency: state.currency.currency,
+  currentCurrency: state.currentCurrency.symbol,
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  getCurrency: () => dispatch(currencyOperations.getCurrency()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -15,8 +15,18 @@ class ProductList extends PureComponent {
     this.props.getProductsList(this.props.currentCategory);
   }
 
+  setPriceCurrency = (prices, currency) => {
+    let amount = 0;
+    prices.forEach(price => {
+      if (price.currency.symbol === currency) {
+        amount = price.amount;
+      }
+    });
+    return `${currency} ${amount}`;
+  };
+
   render() {
-    const { productsList, getProductItem } = this.props;
+    const { productsList, getProductItem, currentCurrency } = this.props;
     // console.log(productsList);
 
     return (
@@ -47,7 +57,12 @@ class ProductList extends PureComponent {
                       <p className={s.productCardTitle}>
                         {brand} {name}
                       </p>
-                      <p className={s.productCardCost}>${prices[0].amount}</p>
+                      {prices.map(
+                        price => price.currency.label === currentCurrency
+                      )}
+                      <p className={s.productCardCost}>
+                        {this.setPriceCurrency(prices, currentCurrency)}
+                      </p>
                     </Link>
                     {inStock && (
                       <button type="button" className={s.btnAddToCart}>
@@ -69,6 +84,7 @@ class ProductList extends PureComponent {
 const mapStateToProps = state => ({
   currentCategory: state.currentCategory.category,
   productsList: state.products.products,
+  currentCurrency: state.currentCurrency.symbol,
 });
 
 const mapDispatchToProps = dispatch => ({

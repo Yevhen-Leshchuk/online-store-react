@@ -2,10 +2,11 @@
 
 .currencySwitcherBox {
   position: absolute;
-  bottom: -155px;
+  bottom: -217px;
   right: -23px;
   width: 114px;
 
+  background-color: $white;
   box-shadow: $cardShadowActive;
 }
 
@@ -16,10 +17,10 @@
 .currencySwitcherItem {
   display: flex;
   align-items: center;
-  justify-content: center;
 
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 20px;
   cursor: pointer;
 
   transition: color background-color 0.25s $cubicBezier;
@@ -36,7 +37,11 @@
   transition: color background-color 0.25s $cubicBezier;
 }
 
-.currencyIcon {
-  width: 56px;
-  height: 29px;
+.currencySwitcherSymbol {
+  margin-right: 7px;
+  @include fontProperty($size: 17px, $height: 1.14);
+}
+
+.currencySwitcherText {
+  @include fontProperty($size: 17px, $height: 1.14);
 }

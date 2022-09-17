@@ -6,8 +6,8 @@ import s from './Cart.module.scss';
 
 class Cart extends PureComponent {
   render() {
-    const { products, quantity } = this.props;
-    console.log(products);
+    const { products, quantity, currentCurrency } = this.props;
+    // console.log(products);
 
     return (
       <div className={s.cartContainer}>
@@ -15,7 +15,13 @@ class Cart extends PureComponent {
           <h1 className={s.title}>Cart</h1>
           <ul className={s.cartList}>
             {products.map(product => {
-              return <ProductCartItem product={product} key={nanoid()} />;
+              return (
+                <ProductCartItem
+                  product={product}
+                  currentCurrency={currentCurrency}
+                  key={nanoid()}
+                />
+              );
             })}
           </ul>
 
@@ -59,6 +65,7 @@ class Cart extends PureComponent {
 const mapStateToProps = state => ({
   products: state.cart.cartItems,
   quantity: state.cart.quantity,
+  currentCurrency: state.currentCurrency.symbol,
 });
 
 export default connect(mapStateToProps)(Cart);

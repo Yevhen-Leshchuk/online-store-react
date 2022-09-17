@@ -15,6 +15,8 @@ import { categoriesReducer } from './categories';
 import { setCategoryReducer } from './currentCategory';
 import { productsReducer } from './products';
 import { cartReducer } from './cart';
+import { currentCurrencyReducer } from './currency';
+import { currencyReducer } from './currency';
 
 const middleware = getDefaultMiddleware => [
   ...getDefaultMiddleware({
@@ -35,12 +37,27 @@ const productsPersistConfig = {
   storage,
 };
 
+const currentCurrencyPersistConfig = {
+  key: 'currentCurrency',
+  storage,
+};
+
+const currencyPersistConfig = {
+  key: 'currency',
+  storage,
+};
+
 export const store = configureStore({
   reducer: {
     categories: categoriesReducer,
     currentCategory: setCategoryReducer,
     products: persistReducer(productsPersistConfig, productsReducer),
     cart: persistReducer(cartPersistConfig, cartReducer),
+    currentCurrency: persistReducer(
+      currentCurrencyPersistConfig,
+      currentCurrencyReducer
+    ),
+    currency: persistReducer(currencyPersistConfig, currencyReducer),
   },
   devTools: process.env.NODE_ENV === 'development',
   middleware,

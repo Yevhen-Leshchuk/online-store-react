@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import sprite from '../../images/svg/sprite.svg';
+import { connect } from 'react-redux';
+import { addCurrentCurrency } from 'redux/currency';
 import s from './CurrencySwitcher.module.scss';
 
 class CurrencySwitcher extends PureComponent {
@@ -37,6 +38,9 @@ class CurrencySwitcher extends PureComponent {
     }
   };
   render() {
+    const { currency, currentCurrency } = this.props;
+    const currencyArr = Object.entries(currency);
+
     return (
       <>
         <ul
@@ -44,25 +48,30 @@ class CurrencySwitcher extends PureComponent {
           onClick={this.handleCurrencyClick}
           ref={this.ref}
         >
-          <li className={s.currencySwitcherItem}>
-            <svg className={s.currencyIcon}>
-              <use xlinkHref={`${sprite}#usd`} />
-            </svg>
-          </li>
-          <li className={s.currencySwitcherItem}>
-            <svg className={s.currencyIcon}>
-              <use xlinkHref={`${sprite}#eur`} />
-            </svg>
-          </li>
-          <li className={s.currencySwitcherItem}>
-            <svg className={s.currencyIcon}>
-              <use xlinkHref={`${sprite}#jpy`} />
-            </svg>
-          </li>
+          {currencyArr.map(unit => {
+            return (
+              <li
+                className={s.currencySwitcherItem}
+                onClick={() => currentCurrency(unit[0])}
+                key={unit[0]}
+              >
+                <p className={s.currencySwitcherSymbol}>{unit[0]}</p>
+                <p className={s.currencySwitcherText}>{unit[1]}</p>
+              </li>
+            );
+          })}
         </ul>
       </>
     );
   }
 }
 
-export default CurrencySwitcher;
+const mapStateToProps = state => ({
+  currency: state.currency.currency,
+});
+
+const mapDispatchToProps = dispatch => ({
+  currentCurrency: symbol => dispatch(addCurrentCurrency(symbol)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CurrencySwitcher);

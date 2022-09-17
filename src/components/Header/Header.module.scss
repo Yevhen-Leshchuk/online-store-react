@@ -28,20 +28,28 @@
   align-items: center;
 }
 
-.currencySwitcherBtnBox {
+.currencySwitcherBox {
   display: flex;
   align-items: center;
+}
+
+.currencySwitcherSymbol {
+  margin-right: 12px;
+  @include fontProperty($size: 18px, $height: 1.14, $text-align: center);
+}
+
+.currencySwitcherBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 12px;
+  height: 18px;
   margin-right: 22px;
 
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-
-.currencyIcon {
-  margin-right: 10px;
-  width: 12px;
-  height: 18px;
 }
 
 .arrowDownIcon {
@@ -51,7 +59,6 @@
 
 .arrowUpIcon {
   composes: arrowDownIcon;
-  display: none;
 }
 
 .cartBtnBox {

@@ -7,8 +7,18 @@ import sprite from '../../images/svg/sprite.svg';
 import s from './ProductCartItem.module.scss';
 
 class ProductCartItem extends PureComponent {
+  setPriceCurrency = (prices, currency) => {
+    let amount = 0;
+    prices.forEach(price => {
+      if (price.currency.symbol === currency) {
+        amount = price.amount;
+      }
+    });
+    return `${currency} ${amount}`;
+  };
+
   render() {
-    const { product } = this.props;
+    const { product, currentCurrency } = this.props;
 
     return (
       <li className={s.cartListItem} key={product.itemId}>
@@ -16,7 +26,9 @@ class ProductCartItem extends PureComponent {
           <h2 className={s.productTitle}>{product.data.brand}</h2>
           <h3 className={s.kindOfProduct}>{product.data.name}</h3>
 
-          <p className={s.price}>${product.data.prices[0].amount}</p>
+          <p className={s.price}>
+            {this.setPriceCurrency(product.data.prices, currentCurrency)}
+          </p>
 
           <form>
             {product.data.attributes.map(({ id, type, items }) => (
