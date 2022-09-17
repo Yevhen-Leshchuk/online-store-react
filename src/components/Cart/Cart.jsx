@@ -5,6 +5,22 @@ import ProductCartItem from 'components/ProductCartItem';
 import s from './Cart.module.scss';
 
 class Cart extends PureComponent {
+  countTotal = currency => {
+    let total = 0;
+    this.props.products.forEach(product => {
+      product.data.prices.forEach(element => {
+        if (element.currency.symbol === currency) {
+          total = total + element.amount * product.quantity;
+        }
+      });
+    });
+
+    return parseFloat(total.toFixed(2));
+  };
+
+  countTax = () =>
+    ((this.countTotal(this.props.currentCurrency) * 21) / 100).toFixed(2);
+
   render() {
     const { products, quantity, currentCurrency } = this.props;
     // console.log(products);
@@ -41,13 +57,17 @@ class Cart extends PureComponent {
 
               <ul className={s.orderValueBox}>
                 <li className={s.orderValueItem} key={nanoid()}>
-                  $42.00
+                  {currentCurrency} {this.countTax()}
                 </li>
                 <li className={s.orderValueItem} key={nanoid()}>
                   {quantity}
                 </li>
                 <li className={s.orderValueItem} key={nanoid()}>
-                  $200.00
+                  {currentCurrency}
+                  {(
+                    this.countTotal(currentCurrency) +
+                    parseFloat(this.countTax())
+                  ).toFixed(2)}
                 </li>
               </ul>
             </div>
