@@ -1,132 +1,163 @@
 import { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
+import { addItemToCart, removeItemFromCart, clearCart } from 'redux/cart';
+import { successMessage } from 'common/notifications/notification';
 import sprite from '../../images/svg/sprite.svg';
-import pullover from '../../images/img/pullover-md.jpg';
-import glasses from '../../images/img/glasses-md.jpg';
 import s from './MiniCart.module.scss';
 
 class MiniCart extends PureComponent {
+  setPriceCurrency = (prices, currency) => {
+    let amount = 0;
+    prices.forEach(price => {
+      if (price.currency.symbol === currency) {
+        amount = price.amount;
+      }
+    });
+    return `${currency} ${amount}`;
+  };
+
+  countTotal = currency => {
+    let total = 0;
+    this.props.products.forEach(product => {
+      product.data.prices.forEach(element => {
+        if (element.currency.symbol === currency) {
+          total = total + element.amount * product.quantity;
+        }
+      });
+    });
+
+    return parseFloat(total.toFixed(2));
+  };
+
+  countTax = () =>
+    ((this.countTotal(this.props.currentCurrency) * 21) / 100).toFixed(2);
+
   render() {
+    const { products, currentCurrency, quantity, clearCart } = this.props;
+    console.log(products);
+
     return (
       <div className={s.modal}>
         <h2 className={s.title}>
-          My Bag<span className={s.titleValue}>, 3 items</span>
+          My Bag<span className={s.titleValue}>, {quantity} items</span>
         </h2>
         <ul className={s.cartList}>
-          <li className={s.cartListItem}>
-            <div className={s.productDescription}>
-              <h2 className={s.productTitle}>Apollo</h2>
-              <h3 className={s.kindOfProduct}>Running Short</h3>
+          {products.map(product => {
+            return (
+              <li className={s.cartListItem} key={product.itemId}>
+                <div className={s.productDescription}>
+                  <h2 className={s.productTitle}>{product.data.brand}</h2>
+                  <h3 className={s.kindOfProduct}>{product.data.name}</h3>
 
-              <p className={s.price}>$50.00</p>
+                  <p className={s.price}>
+                    {this.setPriceCurrency(
+                      product.data.prices,
+                      currentCurrency
+                    )}
+                  </p>
 
-              <div className={s.sizeContainer}>
-                <h3 className={s.sizeTitle}>SIZE:</h3>
-                <ul className={s.sizeBox}>
-                  <li className={s.sizeItem}>XS</li>
-                  <li className={s.sizeItem}>S</li>
-                  <li className={s.sizeItem}>M</li>
-                  <li className={s.sizeItem}>L</li>
-                </ul>
-              </div>
+                  <form>
+                    {product.data.attributes.map(({ id, type, items }) => (
+                      <div className={s.attrContainer} key={nanoid()}>
+                        <h2 className={s.attrTitle}>{id} :</h2>
+                        <div className={s.attrBox}>
+                          {items.map(({ value }) => {
+                            return type === 'text' ? (
+                              <div className={s.inputBoxText} key={nanoid()}>
+                                <input
+                                  className={s.inputText}
+                                  type="radio"
+                                  name={id}
+                                />
 
-              <div className={s.colorContainer}>
-                <h3 className={s.colorTitle}>COLOR:</h3>
-                <ul className={s.colorBox}>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+                                <label
+                                  className={
+                                    Object.values(product.attributes).find(
+                                      valueAttr => valueAttr === value
+                                    ) === value
+                                      ? s.selectedAttr
+                                      : s.text
+                                  }
+                                >
+                                  {value}
+                                </label>
+                              </div>
+                            ) : (
+                              <div className={s.inputBoxSwatch} key={nanoid()}>
+                                <input
+                                  type="radio"
+                                  className={s.inputSwatch}
+                                  name={id}
+                                />
+                                <label
+                                  className={
+                                    Object.values(product.attributes).find(
+                                      valueAttr => valueAttr === value
+                                    ) === value
+                                      ? s.inputSwatchChecked
+                                      : s.swatch
+                                  }
+                                  style={{
+                                    backgroundColor: value,
+                                  }}
+                                ></label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </form>
+                </div>
 
-            <div className={s.productManagement}>
-              <div className={s.counterBox}>
-                <button className={s.incrementBtn} type="button">
-                  <svg className={s.incrementIcon}>
-                    <use xlinkHref={`${sprite}#plus`} />
-                  </svg>
-                </button>
+                <div className={s.counterBox}>
+                  <button
+                    className={s.incrementBtn}
+                    type="submit"
+                    onClick={() => this.props.addItemToCart(product)}
+                  >
+                    <svg className={s.incrementIcon}>
+                      <use xlinkHref={`${sprite}#plus`} />
+                    </svg>
+                  </button>
 
-                <p className={s.quantity}>1</p>
+                  <p className={s.quantity}>{product.quantity}</p>
 
-                <button className={s.decrementBtn} type="button">
-                  <svg className={s.decrementIcon}>
-                    <use xlinkHref={`${sprite}#minus`} />
-                  </svg>
-                </button>
-              </div>
+                  <button
+                    className={s.decrementBtn}
+                    type="submit"
+                    onClick={() => this.props.removeItemFromCart(product)}
+                  >
+                    <svg className={s.decrementIcon}>
+                      <use xlinkHref={`${sprite}#minus`} />
+                    </svg>
+                  </button>
+                </div>
 
-              <div className={s.productImg}>
-                <img className={s.productImage} src={pullover} alt="pullover" />
-              </div>
-            </div>
-          </li>
-
-          <li className={s.cartListItem}>
-            <div className={s.productDescription}>
-              <h2 className={s.productTitle}>Jupiter</h2>
-              <h3 className={s.kindOfProduct}>Wayfarer</h3>
-
-              <p className={s.price}>$75.00</p>
-
-              <div className={s.sizeContainer}>
-                <h3 className={s.sizeTitle}>SIZE:</h3>
-                <ul className={s.sizeBox}>
-                  <li className={s.sizeItem}>S</li>
-                  <li className={s.sizeItem}>M</li>
-                </ul>
-              </div>
-
-              <div className={s.colorContainer}>
-                <h3 className={s.colorTitle}>COLOR:</h3>
-                <ul className={s.colorBox}>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                  <li className={s.colorItemBox}>
-                    <div className={s.colorItem}></div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className={s.productManagement}>
-              <div className={s.counterBox}>
-                <button className={s.incrementBtn} type="button">
-                  <svg className={s.incrementIcon}>
-                    <use xlinkHref={`${sprite}#plus`} />
-                  </svg>
-                </button>
-
-                <p className={s.quantity}>2</p>
-
-                <button className={s.decrementBtn} type="button">
-                  <svg className={s.decrementIcon}>
-                    <use xlinkHref={`${sprite}#minus`} />
-                  </svg>
-                </button>
-              </div>
-
-              <div className={s.productImg}>
-                <img className={s.productImage} src={glasses} alt="glasses" />
-              </div>
-            </div>
-          </li>
+                <div className={s.productImgContainer}>
+                  <div className={s.productImgBox}>
+                    <img
+                      className={s.productImage}
+                      src={product.data.gallery[0]}
+                      alt={product.data.name}
+                    />
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
 
         <div className={s.totalPriceBox}>
           <h2 className={s.titlePrice}>Total</h2>
-          <p className={s.totalValue}>$200.00</p>
+          <p className={s.totalValue}>
+            {currentCurrency}
+            {(
+              this.countTotal(currentCurrency) + parseFloat(this.countTax())
+            ).toFixed(2)}
+          </p>
         </div>
 
         <div className={s.cartBtnBox}>
@@ -138,7 +169,14 @@ class MiniCart extends PureComponent {
           >
             View bag
           </Link>
-          <button className={s.cartBtn} type="submit">
+          <button
+            className={s.cartBtn}
+            type="submit"
+            onClick={() => {
+              clearCart();
+              successMessage('Thank you for your purchase!');
+            }}
+          >
             CHECK OUT
           </button>
         </div>
@@ -147,4 +185,16 @@ class MiniCart extends PureComponent {
   }
 }
 
-export default MiniCart;
+const mapStateToProps = state => ({
+  products: state.cart.cartItems,
+  quantity: state.cart.quantity,
+  currentCurrency: state.currentCurrency.symbol,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: data => dispatch(addItemToCart(data)),
+  removeItemFromCart: data => dispatch(removeItemFromCart(data)),
+  clearCart: () => dispatch(clearCart()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MiniCart);

@@ -5,10 +5,12 @@
   top: 80px;
   right: -30px;
 
-  width: 325px;
+  min-width: 325px;
+  height: auto;
   padding: 32px 16px 32px 16px;
 
   background-color: $white;
+  overflow: hidden;
 }
 
 .title {
@@ -22,11 +24,16 @@
 }
 
 .productDescription {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  margin-right: 20px;
 }
 
 .cartList {
   margin-bottom: 32px;
+  max-height: 448px;
+  overflow: auto;
 }
 
 .cartListItem {
@@ -37,11 +44,6 @@
 
 .cartListItem:last-child {
   margin-bottom: 0;
-}
-
-.productDescription {
-  display: flex;
-  flex-direction: column;
 }
 
 .productTitle {
@@ -58,92 +60,113 @@
   @include fontProperty($weight: 500, $size: 16px, $height: 1.6);
 }
 
-.sizeContainer {
-  margin-bottom: 7px;
+.attrContainer {
+  margin-bottom: 24px;
+}
+.attrContainer:last-child {
+  margin-bottom: 0;
 }
 
-.sizeTitle {
-  margin-bottom: 7px;
+.attrTitle {
+  margin-bottom: 10px;
 
-  @include fontProperty($weight: 400, $size: 14px, $height: 1.6);
+  @include fontProperty(
+    $font-family: Roboto Condensed,
+    $weight: 400,
+    $size: 14px,
+    $height: 1.14
+  );
 }
 
-.sizeBox {
+.attrBox {
   display: flex;
   align-items: center;
 }
 
-.sizeItem {
-  width: 24px;
-  height: 24px;
+.inputBoxText {
   margin-right: 8px;
+}
+
+.inputText {
+  appearance: none;
+  position: absolute;
+}
+
+.text {
+  content: '';
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
 
   border: 1px solid $black;
 
   @include fontProperty(
     $font-family: Source Sans Pro,
-    $weight: 400,
-    $size: 14px,
+    $weight: 500,
+    $size: 11px,
     $height: 1.6,
     $text-align: center
   );
-
-  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
 }
 
-.sizeItem:last-child {
+.selectedAttr {
+  content: '';
+  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid $black;
+  background-color: $black;
+
+  @include fontProperty(
+    $color: $white,
+    $font-family: Source Sans Pro,
+    $weight: 500,
+    $size: 11px,
+    $height: 1.6,
+    $letter-spacing: 0.05em
+  );
+}
+
+.inputBoxText:last-child {
   margin-right: 0;
 }
 
-.sizeItem:hover,
-.sizeItem:focus {
-  background-color: $black;
-  color: $white;
-
-  transition: color 0.25s $cubicBezier, background-color 0.25s $cubicBezier;
-  cursor: pointer;
-}
-
-.colorTitle {
-  margin-bottom: 8px;
-
-  @include fontProperty($weight: 400, $size: 14px, $height: 1.6);
-}
-
-.colorBox {
-  display: flex;
-  align-items: center;
-}
-
-.colorItemBox {
+.inputBoxSwatch {
   margin-right: 8px;
 }
 
-.colorItem {
-  width: 16px;
-  height: 16px;
-
-  background-color: $blue;
-
-  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
+.inputSwatch {
+  appearance: none;
+  position: absolute;
 }
 
-.colorItemBox:last-child {
+.swatch {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid $black;
+}
+
+.inputSwatchChecked {
+  content: '';
+  display: inline-block;
+
+  width: 22px;
+  height: 22px;
+  border: 1px solid $white;
+  outline: 1px solid $green;
+}
+
+.inputBoxSwatch:last-child {
   margin-right: 0;
-}
-
-.colorItemBox:hover,
-.colorItemBox:focus {
-  padding: 1px;
-  border: 1px solid $green;
-
-  transition: border 0.25s $cubicBezier, padding 0.25s $cubicBezier;
-  cursor: pointer;
-}
-
-.productManagement {
-  position: relative;
-  display: flex;
 }
 
 .counterBox {
@@ -187,7 +210,16 @@
   width: 15px;
 }
 
-.productImg {
+.productImgContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.productImgBox {
+  display: flex;
+  align-items: center;
+
   width: 121px;
   height: 190px;
   overflow: hidden;
@@ -216,6 +248,7 @@
 .cartBtnBox {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .cartBtn {

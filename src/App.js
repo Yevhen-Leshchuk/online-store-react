@@ -1,5 +1,7 @@
 import { PureComponent, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from 'components/Layout/';
 
 const CategoryPage = lazy(() =>
@@ -36,6 +38,14 @@ class App extends PureComponent {
             </Route>
           </Routes>
         </Suspense>
+        <ToastContainer
+          transition={Zoom}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </>
     );
   }

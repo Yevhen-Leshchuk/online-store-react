@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
+import { addItemToCart } from 'redux/cart';
 import sprite from '../../images/svg/sprite.svg';
 import CategoryName from 'components/CategoryName';
 import { productsOperations } from 'redux/products';
@@ -25,6 +27,22 @@ class ProductList extends PureComponent {
     return `${currency} ${amount}`;
   };
 
+  addToCart = product => {
+    const itemId = nanoid();
+    let obj = {};
+    product.attributes.forEach(attribute => {
+      obj[attribute.id] = attribute.items[0].value;
+    });
+
+    const updateData = {
+      attributes: obj,
+      data: product,
+      itemId,
+    };
+
+    this.props.addItemToCart(updateData);
+  };
+
   render() {
     const { productsList, getProductItem, currentCurrency } = this.props;
     // console.log(productsList);
@@ -34,47 +52,49 @@ class ProductList extends PureComponent {
         <CategoryName />
         <ul className={s.productList}>
           {productsList &&
-            productsList.map(
-              ({ name, gallery, brand, inStock, prices, id }) => {
-                return (
-                  <li key={id} className={s.productCard}>
-                    <Link
-                      to="/product-card"
-                      alt="product card"
-                      className={!inStock ? s.inStockOverlay : null}
-                      onClick={() => getProductItem(id)}
-                    >
-                      <div className={s.productImgBox}>
-                        <img
-                          className={s.productCardImage}
-                          src={gallery[0]}
-                          alt={name}
-                        />
-                        {!inStock && (
-                          <p className={s.inStockText}>OUT OF STOCK</p>
-                        )}
-                      </div>
-                      <p className={s.productCardTitle}>
-                        {brand} {name}
-                      </p>
-                      {prices.map(
-                        price => price.currency.label === currentCurrency
+            productsList.map(product => {
+              return (
+                <li key={product.id} className={s.productCard}>
+                  <Link
+                    to="/product-card"
+                    alt="product card"
+                    className={!product.inStock ? s.inStockOverlay : null}
+                    onClick={() => getProductItem(product.id)}
+                  >
+                    <div className={s.productImgBox}>
+                      <img
+                        className={s.productCardImage}
+                        src={product.gallery[0]}
+                        alt={product.name}
+                      />
+                      {!product.inStock && (
+                        <p className={s.inStockText}>OUT OF STOCK</p>
                       )}
-                      <p className={s.productCardCost}>
-                        {this.setPriceCurrency(prices, currentCurrency)}
-                      </p>
-                    </Link>
-                    {inStock && (
-                      <button type="button" className={s.btnAddToCart}>
-                        <svg className={s.cartIcon}>
-                          <use xlinkHref={`${sprite}#empty-cart`} />
-                        </svg>
-                      </button>
+                    </div>
+                    <p className={s.productCardTitle}>
+                      {product.brand} {product.name}
+                    </p>
+                    {product.prices.map(
+                      price => price.currency.label === currentCurrency
                     )}
-                  </li>
-                );
-              }
-            )}
+                    <p className={s.productCardCost}>
+                      {this.setPriceCurrency(product.prices, currentCurrency)}
+                    </p>
+                  </Link>
+                  {product.inStock && (
+                    <button
+                      type="button"
+                      className={s.btnAddToCart}
+                      onClick={() => this.addToCart(product)}
+                    >
+                      <svg className={s.cartIcon}>
+                        <use xlinkHref={`${sprite}#empty-cart`} />
+                      </svg>
+                    </button>
+                  )}
+                </li>
+              );
+            })}
         </ul>
       </>
     );
@@ -91,6 +111,7 @@ const mapDispatchToProps = dispatch => ({
   getProductsList: currentCategory =>
     dispatch(productsOperations.getProductList(currentCategory)),
   getProductItem: id => dispatch(productsOperations.getProductItem(id)),
+  addItemToCart: data => dispatch(addItemToCart(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

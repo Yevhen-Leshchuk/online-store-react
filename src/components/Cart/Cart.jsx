@@ -2,6 +2,8 @@ import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import ProductCartItem from 'components/ProductCartItem';
+import { clearCart } from 'redux/cart';
+import { successMessage } from 'common/notifications/notification';
 import s from './Cart.module.scss';
 
 class Cart extends PureComponent {
@@ -22,7 +24,7 @@ class Cart extends PureComponent {
     ((this.countTotal(this.props.currentCurrency) * 21) / 100).toFixed(2);
 
   render() {
-    const { products, quantity, currentCurrency } = this.props;
+    const { products, quantity, currentCurrency, clearCart } = this.props;
     // console.log(products);
 
     return (
@@ -63,7 +65,7 @@ class Cart extends PureComponent {
                   {quantity}
                 </li>
                 <li className={s.orderValueItem} key={nanoid()}>
-                  {currentCurrency}
+                  {currentCurrency}{' '}
                   {(
                     this.countTotal(currentCurrency) +
                     parseFloat(this.countTax())
@@ -72,7 +74,14 @@ class Cart extends PureComponent {
               </ul>
             </div>
 
-            <button className={s.orderBtn} type="button">
+            <button
+              className={s.orderBtn}
+              type="submit"
+              onClick={() => {
+                clearCart();
+                successMessage('Thank you for your purchase!');
+              }}
+            >
               ORDER
             </button>
           </div>
@@ -88,4 +97,8 @@ const mapStateToProps = state => ({
   currentCurrency: state.currentCurrency.symbol,
 });
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = dispatch => ({
+  clearCart: () => dispatch(clearCart()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
