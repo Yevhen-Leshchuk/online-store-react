@@ -1,11 +1,11 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Interweave } from 'interweave';
 import { addItemToCart } from 'redux/cart';
 import s from './ProductCard.module.scss';
 
-class ProductCard extends PureComponent {
+class ProductCard extends Component {
   state = {
     imageSRC: '',
   };

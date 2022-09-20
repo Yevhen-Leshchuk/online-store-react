@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
@@ -7,10 +7,13 @@ import CurrencySwitcher from 'components/CurrencySwitcher';
 import ModalCart from 'components/ModalCart';
 import MiniCart from 'components/MiniCart';
 import { currencyOperations } from 'redux/currency';
-import sprite from '../../images/svg/sprite.svg';
+import arrowDown from '../../images/arrow-down.svg';
+import VSF from '../../images/VSF.svg';
+import arrowUp from '../../images/arrow-up.svg';
+import emptyCart from '../../images/empty-cart.svg';
 import s from './Header.module.scss';
 
-class Header extends PureComponent {
+class Header extends Component {
   state = {
     showModal: false,
     showCurrency: false,
@@ -34,20 +37,13 @@ class Header extends PureComponent {
   render() {
     const { quantity, currentCurrency } = this.props;
     const { showCurrency } = this.state;
-    // console.log(currency);
-    // let currencyArr;
-    // if (currency) {
-    //   currencyArr = Object.entries(currency);
-    // }
 
     return (
       <header className={s.header}>
         <Navigation />
 
         <Link to="/" alt="CategoryPage" className={s.logoBox}>
-          <svg className={s.logo}>
-            <use xlinkHref={`${sprite}#VSF`} />
-          </svg>
+          <img src={VSF} alt="VSF" className={s.logoBox} />
         </Link>
 
         <div className={s.toolsBox}>
@@ -55,29 +51,29 @@ class Header extends PureComponent {
             <h2 className={s.currencySwitcherSymbol}>{currentCurrency}</h2>
             {!showCurrency && (
               <button
-                type="submit"
+                type="button"
                 className={s.currencySwitcherBtn}
                 onClick={() => {
                   this.props.getCurrency();
                   this.toggleCurrency();
                 }}
               >
-                <svg className={s.arrowDownIcon}>
-                  <use xlinkHref={`${sprite}#arrow-down`} />
-                </svg>
+                <img
+                  src={arrowDown}
+                  alt="arrow-down"
+                  className={s.arrowDownIcon}
+                />
               </button>
             )}
             {showCurrency && (
               <button
-                type="submit"
+                type="button"
                 className={s.currencySwitcherBtn}
                 onClick={() => {
                   this.toggleCurrency();
                 }}
               >
-                <svg className={s.arrowUpIcon}>
-                  <use xlinkHref={`${sprite}#arrow-up`} />
-                </svg>
+                <img src={arrowUp} alt="arrow-up" className={s.arrowUpIcon} />
               </button>
             )}
           </div>
@@ -87,9 +83,7 @@ class Header extends PureComponent {
             className={s.cartBtnBox}
             onClick={this.toggleModal}
           >
-            <svg className={s.cartIcon}>
-              <use xlinkHref={`${sprite}#empty-cart`} />
-            </svg>
+            <img src={emptyCart} alt="empty-cart" className={s.cartIcon} />
           </button>
         </div>
         {quantity > 0 && (
@@ -99,10 +93,7 @@ class Header extends PureComponent {
         )}
 
         {this.state.showCurrency && (
-          <CurrencySwitcher
-            onClose={this.toggleCurrency}
-            // currency={currencyArr}
-          />
+          <CurrencySwitcher onClose={this.toggleCurrency} />
         )}
 
         {this.state.showModal && (

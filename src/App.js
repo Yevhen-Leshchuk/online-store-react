@@ -1,4 +1,4 @@
-import { PureComponent, Suspense, lazy } from 'react';
+import { Component, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +24,7 @@ const CartPage = lazy(() =>
   import('pages/CartPage/CartPage' /* webpackChunkName: "CartPage" */)
 );
 
-class App extends PureComponent {
+class App extends Component {
   render() {
     return (
       <>

@@ -1,20 +1,31 @@
-import { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { addItemToCart } from 'redux/cart';
-import sprite from '../../images/svg/sprite.svg';
 import CategoryName from 'components/CategoryName';
 import { productsOperations } from 'redux/products';
+import emptyCart from '../../images/empty-cart-white.svg';
 import s from './ProductList.module.scss';
 
-class ProductList extends PureComponent {
+class ProductList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      prevIndex: 6,
+    };
+    this.productRef = React.createRef();
+  }
   componentDidMount() {
     this.props.getProductsList(this.props.currentCategory);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(_, prevState) {
     this.props.getProductsList(this.props.currentCategory);
+
+    if (this.props.productsList.length > prevState.prevIndex) {
+      this.lazyLoad(this.productRef.current);
+    }
   }
 
   setPriceCurrency = (prices, currency) => {
@@ -43,18 +54,43 @@ class ProductList extends PureComponent {
     this.props.addItemToCart(updateData);
   };
 
+  lazyLoad = targets => {
+    const options = {
+      rootMargin: '100px',
+    };
+
+    const onEntry = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.props.getProductsList(this.props.currentCategory);
+          this.setState({
+            prevIndex: this.state.prevIndex + 6,
+          });
+          observer.unobserve(this.productRef.current);
+        }
+      });
+    };
+
+    const io = new IntersectionObserver(onEntry, options);
+
+    io.observe(targets);
+  };
+
   render() {
     const { productsList, getProductItem, currentCurrency } = this.props;
-    // console.log(productsList);
 
     return (
       <>
         <CategoryName />
         <ul className={s.productList}>
           {productsList &&
-            productsList.map(product => {
+            productsList.slice(0, this.state.prevIndex).map(product => {
               return (
-                <li key={product.id} className={s.productCard}>
+                <li
+                  key={product.id}
+                  className={s.productCard}
+                  ref={this.productRef}
+                >
                   <Link
                     to="/product-card"
                     alt="product card"
@@ -87,9 +123,11 @@ class ProductList extends PureComponent {
                       className={s.btnAddToCart}
                       onClick={() => this.addToCart(product)}
                     >
-                      <svg className={s.cartIcon}>
-                        <use xlinkHref={`${sprite}#empty-cart`} />
-                      </svg>
+                      <img
+                        src={emptyCart}
+                        alt="empty-cart"
+                        className={s.cartIcon}
+                      />
                     </button>
                   )}
                 </li>

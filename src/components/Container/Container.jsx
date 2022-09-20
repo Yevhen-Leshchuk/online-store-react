@@ -1,8 +1,8 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import s from './Container.module.scss';
 
-class Container extends PureComponent {
+class Container extends Component {
   render() {
     return <div className={s.container}>{this.props.children}</div>;
   }

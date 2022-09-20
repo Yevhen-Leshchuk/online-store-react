@@ -1,12 +1,13 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
-import Gallery from 'common/Gallery';
+import Gallery from 'components/Gallery';
 import { addItemToCart, removeItemFromCart } from 'redux/cart';
-import sprite from '../../images/svg/sprite.svg';
+import plus from '../../images/plus.svg';
+import minus from '../../images/minus.svg';
 import s from './ProductCartItem.module.scss';
 
-class ProductCartItem extends PureComponent {
+class ProductCartItem extends Component {
   setPriceCurrency = (prices, currency) => {
     let amount = 0;
     prices.forEach(price => {
@@ -87,9 +88,7 @@ class ProductCartItem extends PureComponent {
               type="submit"
               onClick={() => this.props.addItemToCart(product)}
             >
-              <svg className={s.incrementIcon}>
-                <use xlinkHref={`${sprite}#plus`} />
-              </svg>
+              <img src={plus} alt="plus" className={s.incrementIcon} />
             </button>
 
             <p className={s.quantity}>{product.quantity}</p>
@@ -99,9 +98,7 @@ class ProductCartItem extends PureComponent {
               type="submit"
               onClick={() => this.props.removeItemFromCart(product)}
             >
-              <svg className={s.decrementIcon}>
-                <use xlinkHref={`${sprite}#minus`} />
-              </svg>
+              <img src={minus} alt="minus" className={s.decrementIcon} />
             </button>
           </div>
           <Gallery gallery={product.data.gallery} product={product} />

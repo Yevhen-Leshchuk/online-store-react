@@ -1,13 +1,14 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { addItemToCart, removeItemFromCart, clearCart } from 'redux/cart';
 import { successMessage } from 'common/notifications/notification';
-import sprite from '../../images/svg/sprite.svg';
+import plus from '../../images/plus.svg';
+import minus from '../../images/minus.svg';
 import s from './MiniCart.module.scss';
 
-class MiniCart extends PureComponent {
+class MiniCart extends Component {
   setPriceCurrency = (prices, currency) => {
     let amount = 0;
     prices.forEach(price => {
@@ -118,9 +119,7 @@ class MiniCart extends PureComponent {
                     type="submit"
                     onClick={() => this.props.addItemToCart(product)}
                   >
-                    <svg className={s.incrementIcon}>
-                      <use xlinkHref={`${sprite}#plus`} />
-                    </svg>
+                    <img src={plus} alt="plus" className={s.incrementIcon} />
                   </button>
 
                   <p className={s.quantity}>{product.quantity}</p>
@@ -130,9 +129,7 @@ class MiniCart extends PureComponent {
                     type="submit"
                     onClick={() => this.props.removeItemFromCart(product)}
                   >
-                    <svg className={s.decrementIcon}>
-                      <use xlinkHref={`${sprite}#minus`} />
-                    </svg>
+                    <img src={minus} alt="minus" className={s.decrementIcon} />
                   </button>
                 </div>
 

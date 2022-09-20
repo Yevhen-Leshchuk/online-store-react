@@ -1,8 +1,8 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import ProductList from 'components/ProductList';
 import s from './CategoryPage.module.scss';
 
-class CategoryPage extends PureComponent {
+class CategoryPage extends Component {
   render() {
     return (
       <>

@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
-import sprite from '../../images/svg/sprite.svg';
+import React, { Component } from 'react';
+import arrowLeft from '../../images/arrow-left.svg';
+import arrowRight from '../../images/arrow-right.svg';
 import s from './Gallery.module.scss';
 
-class Gallery extends PureComponent {
+class Gallery extends Component {
   state = {
     currentIndex: 0,
   };
@@ -42,18 +43,22 @@ class Gallery extends PureComponent {
               type="button"
               onClick={() => this.onClickArrowLeft(gallery)}
             >
-              <svg className={s.switcherIcon}>
-                <use xlinkHref={`${sprite}#arrow-left`} />
-              </svg>
+              <img
+                src={arrowLeft}
+                alt="arrow-left"
+                className={s.switcherIcon}
+              />
             </button>
             <button
               className={s.switcherImgRight}
               type="button"
               onClick={() => this.onClickArrowRight(gallery)}
             >
-              <svg className={s.switcherIcon}>
-                <use xlinkHref={`${sprite}#arrow-right`} />
-              </svg>
+              <img
+                src={arrowRight}
+                alt="arrow-right"
+                className={s.switcherIcon}
+              />
             </button>
           </div>
         )}

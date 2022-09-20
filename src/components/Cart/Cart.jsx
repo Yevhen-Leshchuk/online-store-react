@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { nanoid } from 'nanoid';
 import ProductCartItem from 'components/ProductCartItem';
@@ -6,7 +6,7 @@ import { clearCart } from 'redux/cart';
 import { successMessage } from 'common/notifications/notification';
 import s from './Cart.module.scss';
 
-class Cart extends PureComponent {
+class Cart extends Component {
   countTotal = currency => {
     let total = 0;
     this.props.products.forEach(product => {

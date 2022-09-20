@@ -20,7 +20,6 @@
 .logo {
   width: 31px;
   height: 31px;
-  fill: $green;
 }
 
 .toolsBox {
@@ -72,7 +71,6 @@
 
 .cartIcon {
   composes: cartBtnBox;
-  fill: $black;
 }
 
 .quantityProductBox {

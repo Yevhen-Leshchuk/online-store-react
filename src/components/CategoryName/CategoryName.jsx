@@ -1,8 +1,8 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import s from './CategoryName.module.scss';
 
-class CategoryName extends PureComponent {
+class CategoryName extends Component {
   render() {
     const { currentCategory } = this.props;
     return (

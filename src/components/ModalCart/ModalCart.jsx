@@ -1,11 +1,11 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
 import s from './ModalCart.module.scss';
 
 const modalRoot = document.querySelector('#modal-root');
 
-class ModalCart extends PureComponent {
+class ModalCart extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
     window.document.body.style.overflowY = 'hidden';

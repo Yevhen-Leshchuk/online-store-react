@@ -1,11 +1,11 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { categoriesOperations } from 'redux/categories';
 import { setCategory } from 'redux/currentCategory';
 import s from './Navigation.module.scss';
 
-class Navigation extends PureComponent {
+class Navigation extends Component {
   clickOnCategory = category => {
     this.props.setCategory(category);
     this.props.getProductName(category);
