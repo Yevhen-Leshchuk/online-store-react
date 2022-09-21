@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
-import Navigation from 'components/Navigation';
+import Nav from 'components/Navigation';
 import CurrencySwitcher from 'components/CurrencySwitcher';
 import ModalCart from 'components/ModalCart';
 import MiniCart from 'components/MiniCart';
@@ -40,7 +40,7 @@ class Header extends Component {
 
     return (
       <header className={s.header}>
-        <Navigation />
+        <Nav />
 
         <Link to="/" alt="CategoryPage" className={s.logoBox}>
           <img src={VSF} alt="VSF" className={s.logoBox} />
@@ -99,7 +99,7 @@ class Header extends Component {
         {this.state.showModal && (
           <ModalCart onClick={this.onClick} onClose={this.toggleModal} />
         )}
-        {this.state.showModal && <MiniCart onClose={this.toggle} />}
+        {this.state.showModal && <MiniCart onClose={this.toggleModal} />}
       </header>
     );
   }

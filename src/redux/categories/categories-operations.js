@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { gql } from '@apollo/client';
 import { client } from '../../index';
@@ -27,10 +26,8 @@ const getAllCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const { data } = await client.query({ query: GET_ALL_CATEGORIES });
-      // successMessage('Вы успешно зарегистрированы!');
       return data.categories.map(category => category.name);
     } catch (error) {
-      // errorMessage('Такой пользователь уже существует!');
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -44,10 +41,9 @@ const getProductName = createAsyncThunk(
         query: GET_PRODUCT_NAME,
         variables: { title: category },
       });
-      // successMessage('Вы успешно зарегистрированы!');
+
       return data.category.products.map(product => product.id);
     } catch (error) {
-      // errorMessage('Такой пользователь уже существует!');
       return thunkAPI.rejectWithValue(error);
     }
   }

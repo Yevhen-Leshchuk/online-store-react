@@ -1,20 +1,38 @@
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { categoriesOperations } from 'redux/categories';
 import { setCategory } from 'redux/currentCategory';
 import s from './Navigation.module.scss';
 
 class Navigation extends Component {
-  clickOnCategory = category => {
-    this.props.setCategory(category);
-    this.props.getProductName(category);
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
     this.props.getCategories();
     this.props.getProductName(this.props.currentCategory);
   }
+
+  componentDidUpdate() {
+    const { location, categoriesName } = this.props;
+    const pathname = location.pathname.slice(1);
+    const category = categoriesName.find(name => name === pathname);
+
+    if (category) {
+      this.props.setCategory(category);
+    }
+  }
+
+  clickOnCategory = category => {
+    this.props.setCategory(category);
+    this.props.getProductName(category);
+  };
 
   render() {
     const { categoriesName, currentCategory } = this.props;
@@ -24,6 +42,7 @@ class Navigation extends Component {
         {categoriesName.map(name => {
           return (
             <NavLink
+              exact
               key={name}
               to={`/${name}`}
               alt={`${name} page`}
@@ -55,4 +74,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(categoriesOperations.getProductName(currentCategory)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+const Nav = withRouter(Navigation);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

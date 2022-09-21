@@ -77,8 +77,9 @@ class ProductList extends Component {
   };
 
   render() {
-    const { productsList, getProductItem, currentCurrency } = this.props;
-
+    const { productsList, getProductItem, currentCurrency, currentCategory } =
+      this.props;
+    // console.log(currentCategory);
     return (
       <>
         <CategoryName />
@@ -92,7 +93,7 @@ class ProductList extends Component {
                   ref={this.productRef}
                 >
                   <Link
-                    to="/product-card"
+                    to={`/${currentCategory}/${product.id}`}
                     alt="product card"
                     className={!product.inStock ? s.inStockOverlay : null}
                     onClick={() => getProductItem(product.id)}

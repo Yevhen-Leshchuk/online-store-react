@@ -37,7 +37,6 @@ class MiniCart extends Component {
 
   render() {
     const { products, currentCurrency, quantity, clearCart } = this.props;
-    console.log(products);
 
     return (
       <div className={s.modal}>
@@ -159,7 +158,7 @@ class MiniCart extends Component {
 
         <div className={s.cartBtnBox}>
           <Link
-            to="cart"
+            to="/cart"
             alt="cart"
             className={s.linkToCart}
             onClick={() => this.props.onClose()}

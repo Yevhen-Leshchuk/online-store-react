@@ -20,21 +20,6 @@
   transition: border-color 0.25s, color 0.25s $cubicBezier;
 }
 
-.navLink:hover,
-.navLink:focus {
-  @include fontProperty(
-    $color: $green,
-    $weight: 600,
-    $size: 16px,
-    $text-align: center,
-    $transform: uppercase
-  );
-
-  border-bottom: 2px solid $green;
-
-  transition: border-color 0.25s, color 0.25s $cubicBezier;
-}
-
 .activeLink {
   composes: navLink;
   color: $green;
