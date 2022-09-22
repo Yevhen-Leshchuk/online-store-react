@@ -1,5 +1,7 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import ProductCartItem from 'components/ProductCartItem';
 import { clearCart } from 'redux/cart';
@@ -25,23 +27,23 @@ class Cart extends Component {
 
   render() {
     const { products, quantity, currentCurrency, clearCart } = this.props;
-    // console.log(products);
 
     return (
       <div className={s.cartContainer}>
         <div className={s.productDescription}>
           <h1 className={s.title}>Cart</h1>
-          <ul className={s.cartList}>
-            {products.map(product => {
-              return (
+
+          <TransitionGroup component="ul" className={s.cartList}>
+            {products.map(product => (
+              <CSSTransition key={product.itemId} timeout={250} classNames={s}>
                 <ProductCartItem
                   product={product}
                   currentCurrency={currentCurrency}
-                  key={nanoid()}
+                  id={product.itemId}
                 />
-              );
-            })}
-          </ul>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
 
           <div className={s.orderContainer}>
             <div className={s.orderInfoBox}>
@@ -100,5 +102,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   clearCart: () => dispatch(clearCart()),
 });
+
+Cart.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({})),
+  quantity: PropTypes.number.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+  clearCart: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addCurrentCurrency } from 'redux/currency';
 import s from './CurrencySwitcher.module.scss';
 
@@ -48,18 +49,19 @@ class CurrencySwitcher extends Component {
           onClick={this.handleCurrencyClick}
           ref={this.ref}
         >
-          {currencyArr.map(unit => {
-            return (
-              <li
-                className={s.currencySwitcherItem}
-                onClick={() => currentCurrency(unit[0])}
-                key={unit[0]}
-              >
-                <p className={s.currencySwitcherSymbol}>{unit[0]}</p>
-                <p className={s.currencySwitcherText}>{unit[1]}</p>
-              </li>
-            );
-          })}
+          {currencyArr &&
+            currencyArr.map(unit => {
+              return (
+                <li
+                  className={s.currencySwitcherItem}
+                  onClick={() => currentCurrency(unit[0])}
+                  key={unit[0]}
+                >
+                  <p className={s.currencySwitcherSymbol}>{unit[0]}</p>
+                  <p className={s.currencySwitcherText}>{unit[1]}</p>
+                </li>
+              );
+            })}
         </ul>
       </>
     );
@@ -73,5 +75,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   currentCurrency: symbol => dispatch(addCurrentCurrency(symbol)),
 });
+
+CurrencySwitcher.propTypes = {
+  currentCurrency: PropTypes.func.isRequired,
+  currency: PropTypes.shape({}).isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrencySwitcher);

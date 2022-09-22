@@ -1,23 +1,15 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import Gallery from 'components/Gallery';
 import { addItemToCart, removeItemFromCart } from 'redux/cart';
+import setPriceCurrency from 'common/utils/setPrice';
 import plus from '../../images/plus.svg';
 import minus from '../../images/minus.svg';
 import s from './ProductCartItem.module.scss';
 
 class ProductCartItem extends Component {
-  setPriceCurrency = (prices, currency) => {
-    let amount = 0;
-    prices.forEach(price => {
-      if (price.currency.symbol === currency) {
-        amount = price.amount;
-      }
-    });
-    return `${currency} ${amount}`;
-  };
-
   render() {
     const { product, currentCurrency } = this.props;
 
@@ -28,7 +20,7 @@ class ProductCartItem extends Component {
           <h3 className={s.kindOfProduct}>{product.data.name}</h3>
 
           <p className={s.price}>
-            {this.setPriceCurrency(product.data.prices, currentCurrency)}
+            {setPriceCurrency(product.data.prices, currentCurrency)}
           </p>
 
           <form>
@@ -112,5 +104,34 @@ const mapDispatchToProps = dispatch => ({
   addItemToCart: data => dispatch(addItemToCart(data)),
   removeItemFromCart: data => dispatch(removeItemFromCart(data)),
 });
+
+ProductCartItem.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      itemId: PropTypes.string.isRequired,
+      data: PropTypes.shape({
+        brand: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        prices: PropTypes.arrayOf(PropTypes.shape({})),
+        attributes: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+            items: PropTypes.arrayOf(
+              PropTypes.shape({
+                value: PropTypes.string.isRequired,
+              })
+            ),
+          })
+        ),
+      }),
+      quantity: PropTypes.number.isRequired,
+      gallery: PropTypes.string.isRequired,
+    })
+  ),
+  addItemToCart: PropTypes.func.isRequired,
+  removeItemFromCart: PropTypes.func.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(ProductCartItem);

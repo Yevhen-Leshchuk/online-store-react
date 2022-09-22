@@ -10,7 +10,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-// import logger from 'redux-logger';
+import logger from 'redux-logger';
 import { categoriesReducer } from './categories';
 import { setCategoryReducer } from './currentCategory';
 import { productsReducer } from './products';
@@ -24,7 +24,7 @@ const middleware = getDefaultMiddleware => [
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-  // logger,
+  logger,
 ];
 
 const cartPersistConfig = {
@@ -47,10 +47,18 @@ const currencyPersistConfig = {
   storage,
 };
 
+const currentCategoryPersistConfig = {
+  key: 'currentCategory',
+  storage,
+};
+
 export const store = configureStore({
   reducer: {
     categories: categoriesReducer,
-    currentCategory: setCategoryReducer,
+    currentCategory: persistReducer(
+      currentCategoryPersistConfig,
+      setCategoryReducer
+    ),
     products: persistReducer(productsPersistConfig, productsReducer),
     cart: persistReducer(cartPersistConfig, cartReducer),
     currentCurrency: persistReducer(

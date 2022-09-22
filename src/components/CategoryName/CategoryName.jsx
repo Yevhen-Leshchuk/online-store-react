@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import s from './CategoryName.module.scss';
 
 class CategoryName extends Component {
@@ -15,5 +16,7 @@ class CategoryName extends Component {
 const mapStateToProps = state => ({
   currentCategory: state.currentCategory.category,
 });
+
+CategoryName.propTypes = { currentCurrency: PropTypes.string };
 
 export default connect(mapStateToProps)(CategoryName);

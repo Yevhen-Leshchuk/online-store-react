@@ -1,24 +1,16 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { addItemToCart, removeItemFromCart, clearCart } from 'redux/cart';
 import { successMessage } from 'common/notifications/notification';
+import setPriceCurrency from 'common/utils/setPrice';
 import plus from '../../images/plus.svg';
 import minus from '../../images/minus.svg';
 import s from './MiniCart.module.scss';
 
 class MiniCart extends Component {
-  setPriceCurrency = (prices, currency) => {
-    let amount = 0;
-    prices.forEach(price => {
-      if (price.currency.symbol === currency) {
-        amount = price.amount;
-      }
-    });
-    return `${currency} ${amount}`;
-  };
-
   countTotal = currency => {
     let total = 0;
     this.props.products.forEach(product => {
@@ -52,10 +44,7 @@ class MiniCart extends Component {
                   <h3 className={s.kindOfProduct}>{product.data.name}</h3>
 
                   <p className={s.price}>
-                    {this.setPriceCurrency(
-                      product.data.prices,
-                      currentCurrency
-                    )}
+                    {setPriceCurrency(product.data.prices, currentCurrency)}
                   </p>
 
                   <form>
@@ -192,5 +181,36 @@ const mapDispatchToProps = dispatch => ({
   removeItemFromCart: data => dispatch(removeItemFromCart(data)),
   clearCart: () => dispatch(clearCart()),
 });
+
+MiniCart.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      itemId: PropTypes.string.isRequired,
+      data: PropTypes.shape({
+        brand: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        prices: PropTypes.arrayOf(PropTypes.shape({})),
+        attributes: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+            items: PropTypes.arrayOf(
+              PropTypes.shape({
+                value: PropTypes.string.isRequired,
+              })
+            ),
+          })
+        ),
+      }),
+      quantity: PropTypes.number.isRequired,
+      gallery: PropTypes.string,
+    })
+  ),
+  quantity: PropTypes.number.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+  addItemToCart: PropTypes.func.isRequired,
+  removeItemFromCart: PropTypes.func.isRequired,
+  clearCart: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MiniCart);

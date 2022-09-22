@@ -1,6 +1,6 @@
 import { Component, Suspense, lazy } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { ToastContainer, Zoom } from 'react-toastify';
@@ -31,13 +31,11 @@ const CartPage = lazy(() =>
 
 class Layout extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
   };
 
   render() {
-    const { currentCategory } = this.props;
+    const { currentCategory, location } = this.props;
 
     return (
       <Container>
@@ -47,7 +45,11 @@ class Layout extends Component {
             <Switch>
               <Suspense fallback={null}>
                 <Route exact path="/">
-                  <CategoryPage />
+                  {location.pathname === '/' ? (
+                    <Redirect to="/all" />
+                  ) : (
+                    <CategoryPage />
+                  )}
                 </Route>
 
                 <Route exact path={`/${currentCategory}`}>
@@ -79,9 +81,12 @@ class Layout extends Component {
 }
 
 const mapStateToProps = state => ({
-  // categoriesName: state.categories.name,
   currentCategory: state.currentCategory.category,
 });
+
+Layout.propTypes = {
+  currentCategory: PropTypes.string.isRequired,
+};
 
 const Main = withRouter(Layout);
 

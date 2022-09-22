@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { addItemToCart } from 'redux/cart';
 import CategoryName from 'components/CategoryName';
 import { productsOperations } from 'redux/products';
+import setPriceCurrency from 'common/utils/setPrice';
 import emptyCart from '../../images/empty-cart-white.svg';
 import s from './ProductList.module.scss';
 
@@ -27,16 +29,6 @@ class ProductList extends Component {
       this.lazyLoad(this.productRef.current);
     }
   }
-
-  setPriceCurrency = (prices, currency) => {
-    let amount = 0;
-    prices.forEach(price => {
-      if (price.currency.symbol === currency) {
-        amount = price.amount;
-      }
-    });
-    return `${currency} ${amount}`;
-  };
 
   addToCart = product => {
     const itemId = nanoid();
@@ -79,7 +71,7 @@ class ProductList extends Component {
   render() {
     const { productsList, getProductItem, currentCurrency, currentCategory } =
       this.props;
-    // console.log(currentCategory);
+
     return (
       <>
         <CategoryName />
@@ -115,7 +107,7 @@ class ProductList extends Component {
                       price => price.currency.label === currentCurrency
                     )}
                     <p className={s.productCardCost}>
-                      {this.setPriceCurrency(product.prices, currentCurrency)}
+                      {setPriceCurrency(product.prices, currentCurrency)}
                     </p>
                   </Link>
                   {product.inStock && (
@@ -152,5 +144,27 @@ const mapDispatchToProps = dispatch => ({
   getProductItem: id => dispatch(productsOperations.getProductItem(id)),
   addItemToCart: data => dispatch(addItemToCart(data)),
 });
+
+ProductList.propTypes = {
+  productsList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      inStock: PropTypes.bool.isRequired,
+      gallery: PropTypes.arrayOf(PropTypes.string),
+      name: PropTypes.string.isRequired,
+      brand: PropTypes.string.isRequired,
+      prices: PropTypes.arrayOf(
+        PropTypes.shape({
+          currency: PropTypes.shape({ label: PropTypes.string.isRequired }),
+        })
+      ),
+    })
+  ),
+  currentCurrency: PropTypes.string.isRequired,
+  currentCategory: PropTypes.string.isRequired,
+  getProductsList: PropTypes.func.isRequired,
+  getProductItem: PropTypes.func.isRequired,
+  addItemToCart: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

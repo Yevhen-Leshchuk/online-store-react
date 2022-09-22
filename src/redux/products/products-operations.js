@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { gql } from '@apollo/client';
 import { client } from '../../index';
@@ -33,21 +32,6 @@ const GET_PRODUCT_ITEM = gql`
   }
 `;
 
-const getProductItem = createAsyncThunk(
-  'product/Item',
-  async (id, thunkAPI) => {
-    try {
-      const { data } = await client.query({
-        query: GET_PRODUCT_ITEM,
-        variables: { id: id },
-      });
-      return data.product;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 const GET_PRODUCT_LIST = gql`
   query getProductList($input: CategoryInput) {
     category(input: $input) {
@@ -79,6 +63,22 @@ const GET_PRODUCT_LIST = gql`
     }
   }
 `;
+
+const getProductItem = createAsyncThunk(
+  'product/Item',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await client.query({
+        query: GET_PRODUCT_ITEM,
+        variables: { id: id },
+      });
+
+      return data.product;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const getProductList = createAsyncThunk(
   'product/list',

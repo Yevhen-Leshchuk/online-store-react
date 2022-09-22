@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import arrowLeft from '../../images/arrow-left.svg';
 import arrowRight from '../../images/arrow-right.svg';
 import s from './Gallery.module.scss';
@@ -25,7 +26,6 @@ class Gallery extends Component {
   render() {
     let gallery = this.props.gallery;
     const { product } = this.props;
-    // console.log(this.state.currentIndex);
 
     return (
       <>
@@ -66,5 +66,10 @@ class Gallery extends Component {
     );
   }
 }
+
+Gallery.propTypes = {
+  gallery: PropTypes.arrayOf(PropTypes.string.isRequired),
+  product: PropTypes.shape({}).isRequired,
+};
 
 export default Gallery;

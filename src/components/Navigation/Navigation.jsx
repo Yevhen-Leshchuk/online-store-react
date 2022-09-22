@@ -9,9 +9,7 @@ import s from './Navigation.module.scss';
 
 class Navigation extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -42,7 +40,6 @@ class Navigation extends Component {
         {categoriesName.map(name => {
           return (
             <NavLink
-              exact
               key={name}
               to={`/${name}`}
               alt={`${name} page`}
@@ -73,6 +70,14 @@ const mapDispatchToProps = dispatch => ({
   getProductName: currentCategory =>
     dispatch(categoriesOperations.getProductName(currentCategory)),
 });
+
+Navigation.propTypes = {
+  categoriesName: PropTypes.arrayOf(PropTypes.string.isRequired),
+  currentCategory: PropTypes.string.isRequired,
+  getCategories: PropTypes.func.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  getProductName: PropTypes.func.isRequired,
+};
 
 const Nav = withRouter(Navigation);
 

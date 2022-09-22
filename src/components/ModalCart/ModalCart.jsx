@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
-
+import PropTypes from 'prop-types';
 import s from './ModalCart.module.scss';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -35,5 +35,9 @@ class ModalCart extends Component {
     );
   }
 }
+
+ModalCart.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ModalCart;

@@ -1,8 +1,10 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Interweave } from 'interweave';
 import { addItemToCart } from 'redux/cart';
+import setPriceCurrency from 'common/utils/setPrice';
 import s from './ProductCard.module.scss';
 
 class ProductCard extends Component {
@@ -31,20 +33,9 @@ class ProductCard extends Component {
     this.props.addItemToCart(updateData);
   };
 
-  setPriceCurrency = (prices, currency) => {
-    let amount = 0;
-    prices.forEach(price => {
-      if (price.currency.symbol === currency) {
-        amount = price.amount;
-      }
-    });
-    return `${currency} ${amount}`;
-  };
-
   render() {
     const { productItem, currentCurrency } = this.props;
     const { imageSRC } = this.state;
-
     const { name, gallery, brand, inStock, prices, description, attributes } =
       productItem;
 
@@ -125,7 +116,7 @@ class ProductCard extends Component {
                 <div className={s.priceContainer}>
                   <h3 className={s.priceTitle}>PRICE:</h3>
                   <p className={s.price}>
-                    {this.setPriceCurrency(prices, currentCurrency)}
+                    {setPriceCurrency(prices, currentCurrency)}
                   </p>
                 </div>
 
@@ -157,5 +148,30 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addItemToCart: data => dispatch(addItemToCart(data)),
 });
+
+ProductCard.propTypes = {
+  productItem: PropTypes.shape({
+    brand: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    prices: PropTypes.arrayOf(PropTypes.shape({})),
+    attributes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        items: PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string.isRequired,
+          })
+        ),
+      })
+    ),
+    inStock: PropTypes.bool.isRequired,
+    gallery: PropTypes.arrayOf(PropTypes.string.isRequired),
+    description: PropTypes.string.isRequired,
+  }),
+
+  currentCurrency: PropTypes.string.isRequired,
+  addItemToCart: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

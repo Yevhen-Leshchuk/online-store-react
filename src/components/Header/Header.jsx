@@ -1,7 +1,8 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { CSSTransition } from 'react-transition-group';
 import Nav from 'components/Navigation';
 import CurrencySwitcher from 'components/CurrencySwitcher';
 import ModalCart from 'components/ModalCart';
@@ -17,10 +18,17 @@ class Header extends Component {
   state = {
     showModal: false,
     showCurrency: false,
+    currencyArr: null,
   };
 
   async componentDidMount() {
     await this.props.getCurrency();
+  }
+
+  async componentDidUpdate(_, prevState) {
+    if (this.props.currency !== prevState.currencyArr) {
+      await this.setState({ currencyArr: this.props.currency });
+    }
   }
 
   toggleModal = () => {
@@ -30,13 +38,17 @@ class Header extends Component {
     });
   };
 
-  toggleCurrency = () => {
-    this.setState({ showCurrency: !this.state.showCurrency, showModal: false });
+  openCurrency = () => {
+    this.setState({ showCurrency: true, showModal: false });
+  };
+
+  closeCurrency = () => {
+    this.setState({ showCurrency: false });
   };
 
   render() {
     const { quantity, currentCurrency } = this.props;
-    const { showCurrency } = this.state;
+    const { showCurrency, currencyArr, showModal } = this.state;
 
     return (
       <header className={s.header}>
@@ -55,7 +67,7 @@ class Header extends Component {
                 className={s.currencySwitcherBtn}
                 onClick={() => {
                   this.props.getCurrency();
-                  this.toggleCurrency();
+                  this.openCurrency();
                 }}
               >
                 <img
@@ -70,7 +82,7 @@ class Header extends Component {
                 type="button"
                 className={s.currencySwitcherBtn}
                 onClick={() => {
-                  this.toggleCurrency();
+                  this.closeCurrency();
                 }}
               >
                 <img src={arrowUp} alt="arrow-up" className={s.arrowUpIcon} />
@@ -86,20 +98,43 @@ class Header extends Component {
             <img src={emptyCart} alt="empty-cart" className={s.cartIcon} />
           </button>
         </div>
+
         {quantity > 0 && (
           <div className={s.quantityProductBox}>
             <span className={s.quantityProductText}>{quantity}</span>
           </div>
         )}
 
-        {this.state.showCurrency && (
-          <CurrencySwitcher onClose={this.toggleCurrency} />
-        )}
-
-        {this.state.showModal && (
+        <CSSTransition
+          in={showModal}
+          unmountOnExit
+          timeout={250}
+          classNames={s}
+        >
           <ModalCart onClick={this.onClick} onClose={this.toggleModal} />
-        )}
-        {this.state.showModal && <MiniCart onClose={this.toggleModal} />}
+        </CSSTransition>
+
+        <CSSTransition
+          in={showModal}
+          unmountOnExit
+          timeout={250}
+          classNames={s}
+        >
+          <MiniCart onClose={this.toggleModal} />
+        </CSSTransition>
+
+        <CSSTransition
+          in={showCurrency}
+          unmountOnExit
+          timeout={300}
+          classNames={s}
+        >
+          <CurrencySwitcher
+            onClose={this.closeCurrency}
+            showCurrency={showCurrency}
+            currency={currencyArr}
+          />
+        </CSSTransition>
       </header>
     );
   }
@@ -114,5 +149,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getCurrency: () => dispatch(currencyOperations.getCurrency()),
 });
+
+Header.propTypes = {
+  quantity: PropTypes.number.isRequired,
+  currentCurrency: PropTypes.string.isRequired,
+  getCurrency: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
