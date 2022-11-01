@@ -14,10 +14,10 @@ First start the demo endpoint!
 You can find the endpoint here , together with the instructions:
 [GraphQL endpoint-Scandiweb](https://github.com/scandiweb/junior-react-endpoint)
 
-Then, in the project directory, you can run:
+Installs dependencies:
 
 ### `npm install`
 
-Installs dependencies.
+Run app:
 
 ### `npm start`
